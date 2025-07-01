@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Assignee Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dashboard-container">
+    <h2>Welcome to the Assignee Dashboard!</h2>
+    <p>This is a restricted area for assignees only.</p>
+    <p>User ID: @Context.Session.GetInt32("UserId")</p>
+    <p>Username: @Context.Session.GetString("UserName")</p>
+    <p>Role: Assignee</p>
+</div>
+

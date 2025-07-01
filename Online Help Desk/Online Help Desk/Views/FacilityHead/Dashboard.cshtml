@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Facility Head Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dashboard-container">
+    <h2>Welcome to the Facility Head Dashboard!</h2>
+    <p>This is a restricted area for facility heads only.</p>
+    <p>User ID: @Context.Session.GetInt32("UserId")</p>
+    <p>Username: @Context.Session.GetString("UserName")</p>
+    <p>Role: FacilityHead</p>
+</div>

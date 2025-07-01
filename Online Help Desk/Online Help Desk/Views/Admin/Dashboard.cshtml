@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="~/Admin/style.css">
+</head>
+<body>
+    <div class="sidenav">
+        <h2>Admin Panel</h2>
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Manage Users</a>
+        <a href="#">Manage Facilities</a>
+        <a href="#">View Reports</a>
+        <a href="#">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <span class="username">Welcome, Admin</span>
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="stats">
+            <div class="card">
+                <h3>Total Users</h3>
+                <p>1,245</p>
+            </div>
+            <div class="card">
+                <h3>Active Requests</h3>
+                <p>87</p>
+            </div>
+            <div class="card">
+                <h3>Pending Approvals</h3>
+                <p>23</p>
+            </div>
+            <div class="card">
+                <h3>Resolved Issues</h3>
+                <p>542</p>
+            </div>
+        </div>
+
+        <h2>Recent Requests</h2>
+        <div class="export-buttons">
+            <button onclick="exportToPDF('requests-table')">Export to PDF</button>
+            <button onclick="exportToExcel()">Export to Excel</button>
+        </div>
+
+        <table id="requests-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Request ID</th>
+                    <th onclick="sortTable(1)">User</th>
+                    <th onclick="sortTable(2)">Date</th>
+                    <th onclick="sortTable(3)">Facility</th>
+                    <th onclick="sortTable(4)">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>REQ-1024</td>
+                    <td>John Smith</td>
+                    <td>2023-05-15</td>
+                    <td>Library</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td>REQ-1023</td>
+                    <td>Alice Johnson</td>
+                    <td>2023-05-15</td>
+                    <td>Lab 3</td>
+                    <td>In Progress</td>
+                </tr>
+                <tr>
+                    <td>REQ-1022</td>
+                    <td>Bob Williams</td>
+                    <td>2023-05-14</td>
+                    <td>Auditorium</td>
+                    <td>Pending</td>
+                </tr>
+                <tr>
+                    <td>REQ-1021</td>
+                    <td>Sarah Davis</td>
+                    <td>2023-05-14</td>
+                    <td>Computer Lab</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td>REQ-1020</td>
+                    <td>Michael Brown</td>
+                    <td>2023-05-13</td>
+                    <td>Gymnasium</td>
+                    <td>Completed</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <script src="~/Admin/script.js"></script>
+</body>
+</html>
+

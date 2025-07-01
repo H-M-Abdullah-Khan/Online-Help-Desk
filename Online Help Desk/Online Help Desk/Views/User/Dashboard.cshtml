@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "User Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dashboard-container">
+    <h2>Welcome to the User Dashboard!</h2>
+    <p>This is your personal dashboard.</p>
+    <p>User ID: @Context.Session.GetInt32("UserId")</p>
+    <p>Username: @Context.Session.GetString("UserName")</p>
+    <p>Role: EndUser</p>
+</div>
+
