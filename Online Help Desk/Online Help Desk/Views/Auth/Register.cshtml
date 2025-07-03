@@ -137,12 +137,31 @@
     </div>
 
 
+
     <script src="~/Auth/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="~/Auth/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
     <script src="~/Auth/assets/js/feather.min.js"></script>
-
     <script src="~/Auth/assets/js/script.js"></script>
+
+    @if (ViewBag.PendingApproval != null)
+    {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'info',
+                title: 'Registered!',
+                text: 'Please wait for admin approval.',
+                timer: 5000,
+                showConfirmButton: false
+            });
+
+            setTimeout(function () {
+                window.location.href = '@Url.Action("Login", "Auth")';
+            }, 5000);
+        </script>
+    }
 </body>
 </html>
+
 

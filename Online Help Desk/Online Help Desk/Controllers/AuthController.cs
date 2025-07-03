@@ -42,6 +42,8 @@ namespace Online_Help_Desk.Controllers
         {
             model.Role = requestedRole;
             model.IsActive = requestedRole == RoleEnum.EndUser;
+            model.DateCreated = DateTime.Now;
+
             _context.Users.Add(model);
             _context.SaveChanges();
 
@@ -50,30 +52,28 @@ namespace Online_Help_Desk.Controllers
                 _context.ApprovalRequests.Add(new ApprovalRequest
                 {
                     UserId = model.UserId,
-                    RequestedRole = requestedRole,
+                    RequestedRole = requestedRole
                 });
                 _context.SaveChanges();
+
+                ViewBag.PendingApproval = true; // ✅ SweetAlert trigger
+                return View(); // ✅ Stay on Register page
             }
 
-            // ✅ Auto-login user if active
-            if (model.IsActive)
+            // ✅ Auto-login if active
+            HttpContext.Session.SetInt32("UserId", model.UserId);
+            HttpContext.Session.SetString("Role", model.Role.ToString());
+
+            return model.Role switch
             {
-                HttpContext.Session.SetInt32("UserId", model.UserId);
-                HttpContext.Session.SetString("Role", model.Role.ToString());
-
-                return model.Role switch
-                {
-                    RoleEnum.Admin => RedirectToAction("Dashboard", "Admin"),
-                    RoleEnum.EndUser => RedirectToAction("Dashboard", "User"),
-                    RoleEnum.FacilityHead => RedirectToAction("Dashboard", "FacilityHead"),
-                    RoleEnum.Assignee => RedirectToAction("Dashboard", "Assignee"),
-                    _ => RedirectToAction("Login")
-                };
-            }
-
-            TempData["Success"] = "Registered. Please wait for admin approval.";
-            return RedirectToAction("Login");
+                RoleEnum.Admin => RedirectToAction("Dashboard", "Admin"),
+                RoleEnum.EndUser => RedirectToAction("Dashboard", "User"),
+                RoleEnum.FacilityHead => RedirectToAction("Dashboard", "FacilityHead"),
+                RoleEnum.Assignee => RedirectToAction("Dashboard", "Assignee"),
+                _ => RedirectToAction("Login")
+            };
         }
+
 
         public IActionResult Logout()
         {
