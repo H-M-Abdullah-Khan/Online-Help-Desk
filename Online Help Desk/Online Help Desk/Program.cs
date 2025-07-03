@@ -21,7 +21,6 @@
 //app.Run();
 using Microsoft.EntityFrameworkCore;
 using Online_Help_Desk.Models;
-using Online_Help_Desk.Attributes; // Required for AuthorizeRoleAttribute
 
 var builder = WebApplication.CreateBuilder(args);
 

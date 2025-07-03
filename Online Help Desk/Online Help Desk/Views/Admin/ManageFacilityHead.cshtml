@@ -9,10 +9,10 @@
 <body>
     <div class="sidenav">
         <h2>Admin Panel</h2>
-        <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="dashboard.html">Dashboard</a>
         <a href="ManageRequests.html">Manage Requests</a>
         <a href="ManageUsers.html">Manage Users</a>
-        <a href="ManageFacilityHead.html">Manage Facility Head</a>
+        <a href="ManageFacilityHead.html" class="active">Manage Facility Head</a>
         <a href="ManageFacilities.html">Manage Facilities</a>
         <a href="#">Logout</a>
     </div>
@@ -54,13 +54,10 @@
         <table id="requests-table">
             <thead>
                 <tr>
-                    <th onclick="sortTable(0)">Request ID</th>
-                    <th onclick="sortTable(1)">Title</th>
-                    <th onclick="sortTable(2)">User Name</th>
-                    <th onclick="sortTable(3)">Facility</th>
-                    <th onclick="sortTable(4)">Assigneer Name</th>
-                    <th onclick="sortTable(5)">Date</th>
-                    <th onclick="sortTable(6)">Status</th>
+                    <th onclick="sortTable(0)">ID</th>
+                    <th onclick="sortTable(1)">FullName</th>
+                    <th onclick="sortTable(2)">Email</th>
+                    <th onclick="sortTable(3)">Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,45 +65,30 @@
                     <td>REQ-1024</td>
                     <td>John Smith</td>
                     <td>2023-05-15</td>
-                    <td>Library</td>
-                    <td>Completed</td>
-                    <td>Completed</td>
                     <td>Completed</td>
                 </tr>
                 <tr>
                     <td>REQ-1023</td>
-                    <td>Alice Johnson</td>
                     <td>2023-05-15</td>
                     <td>Lab 3</td>
-                    <td>In Progress</td>
-                    <td>In Progress</td>
                     <td>In Progress</td>
                 </tr>
                 <tr>
                     <td>REQ-1022</td>
                     <td>Bob Williams</td>
-                    <td>2023-05-14</td>
                     <td>Auditorium</td>
-                    <td>Pending</td>
-                    <td>Pending</td>
                     <td>Pending</td>
                 </tr>
                 <tr>
                     <td>REQ-1021</td>
-                    <td>Sarah Davis</td>
                     <td>2023-05-14</td>
                     <td>Computer Lab</td>
-                    <td>Completed</td>
-                    <td>Completed</td>
                     <td>Completed</td>
                 </tr>
                 <tr>
                     <td>REQ-1020</td>
                     <td>Michael Brown</td>
                     <td>2023-05-13</td>
-                    <td>Gymnasium</td>
-                    <td>Completed</td>
-                    <td>Completed</td>
                     <td>Completed</td>
                 </tr>
             </tbody>

@@ -1,16 +1,48 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Online_Help_Desk.Attributes;
 using Online_Help_Desk.Models;
 
 namespace Online_Help_Desk.Controllers
 {
-    [AuthorizeRole(RoleEnum.Assignee)]
     public class AssigneeController : Controller
     {
-        public IActionResult Dashboard()
+        private readonly ApplicationDbContext _context;
+        public AssigneeController(ApplicationDbContext context) => _context = context;
+
+        public IActionResult Dashboard() => View();
+
+        public IActionResult MyTasks()
         {
-            return View();
+            int uid = HttpContext.Session.GetInt32("UserId") ?? 0;
+            var tasks = _context.Requests.Where(r => r.AssignedToUserId == uid).ToList();
+            return View(tasks);
+        }
+
+        public IActionResult UpdateRequest(int id)
+        {
+            var req = _context.Requests.FirstOrDefault(r => r.RequestId == id);
+            return View(req);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateRequest(Request model)
+        {
+            var req = _context.Requests.FirstOrDefault(r => r.RequestId == model.RequestId);
+            if (req != null)
+            {
+                req.Status = model.Status;
+                req.UpdatedAt = DateTime.Now;
+                _context.StatusHistories.Add(new StatusHistory
+                {
+                    RequestId = req.RequestId,
+                    UpdatedByUserId = HttpContext.Session.GetInt32("UserId") ?? 0,
+                    Status = model.Status,
+                    UpdatedAt = DateTime.Now
+                });
+                _context.SaveChanges();
+            }
+            return RedirectToAction("MyTasks");
         }
     }
 }
+
 

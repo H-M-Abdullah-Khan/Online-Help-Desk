@@ -16,23 +16,26 @@ namespace Online_Help_Desk.Models
         public int UserId { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [StringLength(100)]
         public string? FullName { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [StringLength(50)]
         public string? Username { get; set; }
 
         [Required]
         [EmailAddress]
         public string? Email { get; set; }
 
+        [Required]
         public string? PasswordHash { get; set; }
 
+        [Required]
         public RoleEnum Role { get; set; }
 
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; } = false;
 
         public DateTime DateCreated { get; set; } = DateTime.Now;
     }
+
 }
