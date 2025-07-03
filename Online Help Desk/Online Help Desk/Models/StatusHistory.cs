@@ -1,5 +1,4 @@
 ﻿using Online_Help_Desk.Models;
-using Online_Help_Desk.Models.OnlineHelpDesk.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Online_Help_Desk.Models
@@ -15,7 +14,7 @@ namespace Online_Help_Desk.Models
 
         [Required]
         public int UpdatedByUserId { get; set; }
-        public Users UpdatedByUser { get; set; }
+        public User UpdatedByUser { get; set; }
 
         [Required]
         public RequestStatus Status { get; set; }

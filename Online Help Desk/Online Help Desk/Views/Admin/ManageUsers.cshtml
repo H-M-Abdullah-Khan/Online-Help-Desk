@@ -9,12 +9,12 @@
 <body>
     <div class="sidenav">
         <h2>Admin Panel</h2>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="ManageRequests.html">Manage Requests</a>
-        <a href="ManageUsers.html" class="active">Manage Users</a>
-        <a href="ManageFacilityHead.html">Manage Facility Head</a>
-        <a href="ManageFacilities.html">Manage Facilities</a>
-        <a href="#">Logout</a>
+        <a href="@Url.Action("Dashboard", "Admin")" class="active">Dashboard</a>
+        <a href="@Url.Action("ManageRequests", "Admin")">Manage Requests</a>
+        <a href="@Url.Action("ManageUsers", "Admin")">Manage Users</a>
+        <a href="@Url.Action("ManageFacilityHead", "Admin")">Manage Facility Head</a>
+        <a href="@Url.Action("ManageFacilities", "Admin")">Manage Facilities</a>
+        <a href="@Url.Action("Logout", "Auth")">Logout</a>
     </div>
 
     <div class="main-content">

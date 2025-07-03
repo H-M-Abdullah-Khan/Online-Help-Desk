@@ -1,12 +1,10 @@
 ﻿using Online_Help_Desk.Models;
-using Online_Help_Desk.Models.OnlineHelpDesk.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Online_Help_Desk.Models
 {
-    namespace OnlineHelpDesk.Models
-    {
+
         public enum RequestStatus
         {
             Pending = 0,
@@ -14,7 +12,7 @@ namespace Online_Help_Desk.Models
             InProgress = 2,
             Closed = 3
         }
-    }
+
 
     public class Request
     {
@@ -32,14 +30,14 @@ namespace Online_Help_Desk.Models
 
         [Required]
         public int UserId { get; set; }
-        public Users User { get; set; }
+        public User User { get; set; }
 
         [Required]
         public int FacilityId { get; set; }
         public Facility? Facility { get; set; }
 
-        public int? AssignedToUserId { get; set; }
-        public Users? AssignedToUser { get; set; }
+        public int AssignedToUserId { get; set; }
+        public User? AssignedToUser { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }

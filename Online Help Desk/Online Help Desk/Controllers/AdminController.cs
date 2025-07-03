@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Online_Help_Desk.Models;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Online_Help_Desk.Controllers
 {
@@ -9,7 +10,7 @@ namespace Online_Help_Desk.Controllers
         private readonly ApplicationDbContext _context;
         public AdminController(ApplicationDbContext context) => _context = context;
 
-        public IActionResult Dashboard() => View();
+        public IActionResult Dashboard() => View(_context.Users.ToList());
 
         public IActionResult ManageUsers() => View(_context.Users.ToList());
 

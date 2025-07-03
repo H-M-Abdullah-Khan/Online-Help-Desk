@@ -10,12 +10,10 @@ namespace Online_Help_Desk.Models
 
         [Required]
         public int UserId { get; set; }
-        public Users? User { get; set; }
+        public User? User { get; set; }
 
         [Required]
         public RoleEnum RequestedRole { get; set; }
-
-        public string? Reason { get; set; }
 
         public bool IsApproved { get; set; } = false;
         public bool IsRejected { get; set; } = false;

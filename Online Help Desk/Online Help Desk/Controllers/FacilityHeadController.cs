@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Online_Help_Desk.Models;
-using Online_Help_Desk.Models.OnlineHelpDesk.Models;
 
 namespace Online_Help_Desk.Controllers
 {

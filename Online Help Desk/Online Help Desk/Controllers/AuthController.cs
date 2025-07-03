@@ -14,9 +14,9 @@ namespace Online_Help_Desk.Controllers
         public IActionResult Login() => View();
 
         [HttpPost]
-        public IActionResult Login(string email, string password)
+        public IActionResult Login(string uemail, string upassword)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == email && u.PasswordHash == password && u.IsActive);
+            var user = _context.Users.FirstOrDefault(u => u.Email == uemail && u.PasswordHash == upassword && u.IsActive);
             if (user != null)
             {
                 HttpContext.Session.SetInt32("UserId", user.UserId);
@@ -38,8 +38,9 @@ namespace Online_Help_Desk.Controllers
         public IActionResult Register() => View();
 
         [HttpPost]
-        public IActionResult Register(Users model, RoleEnum requestedRole, string reason)
+        public IActionResult Register(User model, RoleEnum requestedRole, string reason)
         {
+            model.Role = requestedRole;
             model.IsActive = requestedRole == RoleEnum.EndUser;
             _context.Users.Add(model);
             _context.SaveChanges();
@@ -50,9 +51,24 @@ namespace Online_Help_Desk.Controllers
                 {
                     UserId = model.UserId,
                     RequestedRole = requestedRole,
-                    Reason = reason
                 });
                 _context.SaveChanges();
+            }
+
+            // ✅ Auto-login user if active
+            if (model.IsActive)
+            {
+                HttpContext.Session.SetInt32("UserId", model.UserId);
+                HttpContext.Session.SetString("Role", model.Role.ToString());
+
+                return model.Role switch
+                {
+                    RoleEnum.Admin => RedirectToAction("Dashboard", "Admin"),
+                    RoleEnum.EndUser => RedirectToAction("Dashboard", "User"),
+                    RoleEnum.FacilityHead => RedirectToAction("Dashboard", "FacilityHead"),
+                    RoleEnum.Assignee => RedirectToAction("Dashboard", "Assignee"),
+                    _ => RedirectToAction("Login")
+                };
             }
 
             TempData["Success"] = "Registered. Please wait for admin approval.";
