@@ -10,7 +10,26 @@ namespace Online_Help_Desk.Controllers
         private readonly ApplicationDbContext _context;
         public AdminController(ApplicationDbContext context) => _context = context;
 
-        public IActionResult Dashboard() => View(_context.Users.ToList());
+        public IActionResult Dashboard()
+        {
+            var recentRequests = _context.Requests
+                .Include(r => r.User)
+                .Include(r => r.Facility)
+                .Include(r => r.AssignedToUser)
+                .OrderByDescending(r => r.CreatedAt)
+                .Take(10)
+                .ToList();
+
+            ViewBag.RecentRequests = recentRequests;
+
+            ViewBag.TotalUsers = _context.Users.Count();
+            ViewBag.ActiveRequests = _context.Requests.Count(r => r.Status != RequestStatus.Closed);
+            ViewBag.PendingApprovals = _context.ApprovalRequests.Count(a => !a.IsApproved && !a.IsRejected);
+            ViewBag.ResolvedIssues = _context.Requests.Count(r => r.Status == RequestStatus.Closed);
+
+            return View();
+        }
+
 
         public IActionResult ManageUsers() => View(_context.Users.ToList());
 
