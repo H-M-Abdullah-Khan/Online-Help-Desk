@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Online_Help_Desk.Models;
 
 namespace Online_Help_Desk.Controllers
@@ -8,16 +9,61 @@ namespace Online_Help_Desk.Controllers
         private readonly ApplicationDbContext _context;
         public FacilityHeadController(ApplicationDbContext context) => _context = context;
 
-        public IActionResult Dashboard() => View();
-
-        public IActionResult AssignRequests()
+        private bool IsFacilityHead()
         {
-            var data = _context.Requests.Where(r => r.Status == RequestStatus.Pending).ToList();
-            return View(data);
+            return HttpContext.Session.GetString("Role") == RoleEnum.FacilityHead.ToString();
         }
 
+        private int GetUserId()
+        {
+            return HttpContext.Session.GetInt32("UserId") ?? 0;
+        }
+
+        // 📊 Dashboard (secure)
+        public IActionResult Dashboard()
+        {
+            if (!IsFacilityHead()) return RedirectToAction("Login", "Auth");
+
+            int uid = GetUserId();
+            var assignedRequests = _context.Requests
+                .Include(r => r.User)
+                .Include(r => r.Facility)
+                .Where(r => r.AssignedToUserId == uid)
+                .OrderByDescending(r => r.CreatedAt)
+                .ToList();
+
+            ViewBag.TotalAssigned = assignedRequests.Count;
+            ViewBag.PendingCount = assignedRequests.Count(r => r.Status == RequestStatus.Assigned);
+            ViewBag.InProgressCount = assignedRequests.Count(r => r.Status == RequestStatus.InProgress);
+            ViewBag.ResolvedCount = assignedRequests.Count(r => r.Status == RequestStatus.Closed);
+
+            return View(assignedRequests);
+        }
+
+        // 🧾 Show Pending Requests to Assign
+        public IActionResult AssignRequests()
+        {
+            if (!IsFacilityHead()) return RedirectToAction("Login", "Auth");
+
+            var pendingRequests = _context.Requests
+                .Include(r => r.User)
+                .Include(r => r.Facility)
+                .Where(r => r.Status == RequestStatus.Pending)
+                .OrderByDescending(r => r.CreatedAt)
+                .ToList();
+
+            ViewBag.Assignees = _context.Users
+                .Where(u => u.Role == RoleEnum.Assignee && u.IsActive)
+                .ToList();
+
+            return View(pendingRequests);
+        }
+
+        // ✅ Assign to Assignee
         public IActionResult Assign(int id, int userId)
         {
+            if (!IsFacilityHead()) return RedirectToAction("Login", "Auth");
+
             var req = _context.Requests.FirstOrDefault(r => r.RequestId == id);
             if (req != null)
             {
@@ -29,7 +75,11 @@ namespace Online_Help_Desk.Controllers
             return RedirectToAction("AssignRequests");
         }
 
-        public IActionResult Reports() => View();
+        // 📈 Reports View
+        public IActionResult Reports()
+        {
+            if (!IsFacilityHead()) return RedirectToAction("Login", "Auth");
+            return View();
+        }
     }
 }
-
