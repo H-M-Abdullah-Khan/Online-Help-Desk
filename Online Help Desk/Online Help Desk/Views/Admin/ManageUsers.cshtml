@@ -14,6 +14,7 @@
         <a href="@Url.Action("ManageUsers", "Admin")" class="active">Manage Users</a>
         <a href="@Url.Action("ManageFacilityHead", "Admin")">Manage Facility Head</a>
         <a href="@Url.Action("ManageFacilities", "Admin")">Manage Facilities</a>
+        <a href="@Url.Action("Approvals", "Admin")">Registration Requests</a>
         <a href="@Url.Action("Logout", "Auth")">Logout</a>
     </div>
 
@@ -29,23 +30,25 @@
         <div class="stats">
             <div class="card">
                 <h3>Total Users</h3>
-                <p>1,245</p>
+                <p>@ViewBag.TotalUsers</p>
             </div>
             <div class="card">
-                <h3>Active Requests</h3>
-                <p>87</p>
+                <h3>Admins</h3>
+                <p>@ViewBag.AdminCount</p>
             </div>
             <div class="card">
-                <h3>Pending Approvals</h3>
-                <p>23</p>
+                <h3>Facility Heads</h3>
+                <p>@ViewBag.FacilityHeadCount</p>
             </div>
             <div class="card">
-                <h3>Resolved Issues</h3>
-                <p>542</p>
+                <h3>Assignees</h3>
+                <p>@ViewBag.AssigneeCount</p>
             </div>
         </div>
 
-        <h2>Recent Requests</h2>
+
+
+        <h2>Users</h2>
         <div class="export-buttons">
             <button onclick="exportToPDF('requests-table')">Export to PDF</button>
             <button onclick="exportToExcel()">Export to Excel</button>
@@ -57,46 +60,23 @@
                     <th onclick="sortTable(0)">User Id</th>
                     <th onclick="sortTable(1)">Full Name</th>
                     <th onclick="sortTable(2)">Email</th>
-                    <th onclick="sortTable(3)">Status</th>
-                    <th onclick="sortTable(4)">DateCreated</th>
+                    <th onclick="sortTable(3)">Role</th>
+                    <th onclick="sortTable(4)">Status</th>
+                    <th onclick="sortTable(5)">DateCreated</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>REQ-1024</td>
-                    <td>John Smith</td>
-                    <td>2023-05-15</td>
-                    <td>Library</td>
-                    <td>Completed</td>
-                </tr>
-                <tr>
-                    <td>REQ-1023</td>
-                    <td>Alice Johnson</td>
-                    <td>2023-05-15</td>
-                    <td>Lab 3</td>
-                    <td>In Progress</td>
-                </tr>
-                <tr>
-                    <td>REQ-1022</td>
-                    <td>Bob Williams</td>
-                    <td>2023-05-14</td>
-                    <td>Auditorium</td>
-                    <td>Pending</td>
-                </tr>
-                <tr>
-                    <td>REQ-1021</td>
-                    <td>Sarah Davis</td>
-                    <td>2023-05-14</td>
-                    <td>Computer Lab</td>
-                    <td>Completed</td>
-                </tr>
-                <tr>
-                    <td>REQ-1020</td>
-                    <td>Michael Brown</td>
-                    <td>2023-05-13</td>
-                    <td>Gymnasium</td>
-                    <td>Completed</td>
-                </tr>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.UserId</td>
+                        <td>@user.FullName</td>
+                        <td>@user.Email</td>
+                        <td>@user.Role</td>
+                        <td>@(user.IsActive ? "Active" : "Inactive")</td>
+                        <td>@user.DateCreated.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

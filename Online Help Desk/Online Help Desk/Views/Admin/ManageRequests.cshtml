@@ -14,6 +14,7 @@
         <a href="@Url.Action("ManageUsers", "Admin")">Manage Users</a>
         <a href="@Url.Action("ManageFacilityHead", "Admin")">Manage Facility Head</a>
         <a href="@Url.Action("ManageFacilities", "Admin")">Manage Facilities</a>
+        <a href="@Url.Action("Approvals", "Admin")">Registration Requests</a>
         <a href="@Url.Action("Logout", "Auth")">Logout</a>
     </div>
 
@@ -28,24 +29,25 @@
 
         <div class="stats">
             <div class="card">
-                <h3>Total Users</h3>
-                <p>1,245</p>
+                <h3>Total Requests</h3>
+                <p>@ViewBag.TotalRequests</p>
             </div>
             <div class="card">
-                <h3>Active Requests</h3>
-                <p>87</p>
+                <h3>Pending Requests</h3>
+                <p>@ViewBag.PendingRequests</p>
             </div>
             <div class="card">
-                <h3>Pending Approvals</h3>
-                <p>23</p>
+                <h3>In Progress</h3>
+                <p>@ViewBag.InProgressRequests</p>
             </div>
             <div class="card">
-                <h3>Resolved Issues</h3>
-                <p>542</p>
+                <h3>Closed Requests</h3>
+                <p>@ViewBag.ClosedRequests</p>
             </div>
         </div>
 
-        <h2>Recent Requests</h2>
+
+        <h2>Requests</h2>
         <div class="export-buttons">
             <button onclick="exportToPDF('requests-table')">Export to PDF</button>
             <button onclick="exportToExcel()">Export to Excel</button>
@@ -64,51 +66,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>REQ-1024</td>
-                    <td>John Smith</td>
-                    <td>2023-05-15</td>
-                    <td>Library</td>
-                    <td>Completed</td>
-                    <td>Completed</td>
-                    <td>Completed</td>
-                </tr>
-                <tr>
-                    <td>REQ-1023</td>
-                    <td>Alice Johnson</td>
-                    <td>2023-05-15</td>
-                    <td>Lab 3</td>
-                    <td>In Progress</td>
-                    <td>In Progress</td>
-                    <td>In Progress</td>
-                </tr>
-                <tr>
-                    <td>REQ-1022</td>
-                    <td>Bob Williams</td>
-                    <td>2023-05-14</td>
-                    <td>Auditorium</td>
-                    <td>Pending</td>
-                    <td>Pending</td>
-                    <td>Pending</td>
-                </tr>
-                <tr>
-                    <td>REQ-1021</td>
-                    <td>Sarah Davis</td>
-                    <td>2023-05-14</td>
-                    <td>Computer Lab</td>
-                    <td>Computer Lab</td>
-                    <td>Completed</td>
-                    <td>Completed</td>
-                </tr>
-                <tr>
-                    <td>REQ-1020</td>
-                    <td>Michael Brown</td>
-                    <td>2023-05-13</td>
-                    <td>Gymnasium</td>
-                    <td>Completed</td>
-                    <td>Completed</td>
-                    <td>Completed</td>
-                </tr>
+                @foreach (var r in Model)
+                {
+                    <tr>
+                        <td>@r.RequestId</td>
+                        <td>@r.Title</td>
+                        <td>@r.User?.FullName</td>
+                        <td>@(r.AssignedToUser?.FullName ?? "Unassigned")</td>
+                        <td>@r.Facility?.Name</td>
+                        <td>@r.Status</td>
+                        <td>@r.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
