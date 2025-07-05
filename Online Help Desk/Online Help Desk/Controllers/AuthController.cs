@@ -21,6 +21,7 @@ namespace Online_Help_Desk.Controllers
             {
                 HttpContext.Session.SetInt32("UserId", user.UserId);
                 HttpContext.Session.SetString("Role", user.Role.ToString());
+                HttpContext.Session.SetString("FullName", user.FullName);
 
                 return user.Role switch
                 {

@@ -1,5 +1,122 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<Online_Help_Desk.Models.Request>
+@using Online_Help_Desk.Models
 @{
+    ViewData["Title"] = "Assign Requests";
+
+    // Safely casting ViewBag.Assignees
+    var assignees = ViewBag.Assignees != null
+        ? (List<User>)ViewBag.Assignees
+        : new List<User>();
 }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facility Head Dashboard</title>
+    <link rel="stylesheet" href="~/Admin/style.css">
+    <style>
+        select, .assign-btn {
+            padding: 5px 10px;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        .assign-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+            .assign-btn:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="sidenav">
+        <h2>Facility Head Panel</h2>
+        <a href="@Url.Action("Dashboard", "FacilityHead")">Dashboard</a>
+        <a href="@Url.Action("AssignRequests", "FacilityHead")" class="active">Assign Requests</a>
+        <a href="@Url.Action("Logout", "Auth")">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <span class="username">Welcome, @ViewBag.Username</span>
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+
+        <div class="stats">
+            <div class="card">
+                <h3>Total Pending</h3>
+                <p>@Model.Count</p>
+            </div>
+            <div class="card">
+                <h3>Available Assignees</h3>
+                <p>@assignees?.Count</p>
+            </div>
+        </div>
+
+
+
+        <h2>Pending Requests to Assign</h2>
+        <div class="export-buttons">
+            <button onclick="exportToPDF('requests-table')">Export to PDF</button>
+            <button onclick="exportToExcel()">Export to Excel</button>
+        </div>
+
+        <table id="requests-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Request ID</th>
+                    <th onclick="sortTable(1)">Title</th>
+                    <th onclick="sortTable(2)">Status
+                    <th onclick="sortTable(3)">User</th>
+                    <th onclick="sortTable(4)">Facility</th>
+                    <th onclick="sortTable(5)">Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var req in Model)
+                {
+                    <tr>
+                        <td>@req.RequestId</td>
+                        <td>@req.Title</td>
+                        <td>@req.Description</td>
+                        <td>@req.Facility?.Name</td>
+                        <td>@req.User?.FullName</td>
+                        <td>@req.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")</td>
+                        <td>
+                            <form action="FacilityHead/Assign" method="get" style="display:inline;">
+                                <input type="hidden" name="id" value="@req.RequestId" />
+                                <select name="userId" required>
+                                    <option value="">-- Select Assignee --</option>
+                                    @foreach (var a in assignees)
+                                    {
+                                        <option value="@a.UserId">@a.FullName</option>
+                                    }
+                                </select>
+                                <button type="submit" class="assign-btn">Assign</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <script src="~/Admin/script.js"></script>
+</body>
+</html>
+

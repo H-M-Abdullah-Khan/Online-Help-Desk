@@ -25,6 +25,8 @@ namespace Online_Help_Desk.Controllers
             if (!IsFacilityHead()) return RedirectToAction("Login", "Auth");
 
             int uid = GetUserId();
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            ViewBag.Username = currentUser?.FullName ?? "Facility Head";
             var assignedRequests = _context.Requests
                 .Include(r => r.User)
                 .Include(r => r.Facility)
@@ -45,6 +47,10 @@ namespace Online_Help_Desk.Controllers
         {
             if (!IsFacilityHead()) return RedirectToAction("Login", "Auth");
 
+            int uid = GetUserId();
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            ViewBag.Username = currentUser?.FullName ?? "Facility Head";
+
             var pendingRequests = _context.Requests
                 .Include(r => r.User)
                 .Include(r => r.Facility)
@@ -64,6 +70,10 @@ namespace Online_Help_Desk.Controllers
         {
             if (!IsFacilityHead()) return RedirectToAction("Login", "Auth");
 
+            int uid = GetUserId();
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            ViewBag.Username = currentUser?.FullName ?? "Facility Head";
+
             var req = _context.Requests.FirstOrDefault(r => r.RequestId == id);
             if (req != null)
             {
@@ -75,11 +85,5 @@ namespace Online_Help_Desk.Controllers
             return RedirectToAction("AssignRequests");
         }
 
-        // 📈 Reports View
-        public IActionResult Reports()
-        {
-            if (!IsFacilityHead()) return RedirectToAction("Login", "Auth");
-            return View();
-        }
     }
 }

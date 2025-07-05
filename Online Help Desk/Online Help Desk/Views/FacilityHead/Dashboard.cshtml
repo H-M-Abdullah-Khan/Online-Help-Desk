@@ -1,12 +1,83 @@
-﻿@{
-    ViewData["Title"] = "Facility Head Dashboard";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facility Head Dashboard</title>
+    <link rel="stylesheet" href="~/Admin/style.css">
+</head>
+<body>
+    <div class="sidenav">
+        <h2>Facility Head Panel</h2>
+        <a href="@Url.Action("Dashboard", "FacilityHead")" class="active">Dashboard</a>
+        <a href="@Url.Action("AssignRequests", "FacilityHead")">Assign Requests</a>
+        <a href="@Url.Action("Logout", "Auth")">Logout</a>
+    </div>
 
-<div class="dashboard-container">
-    <h2>Welcome to the Facility Head Dashboard!</h2>
-    <p>This is a restricted area for facility heads only.</p>
-    <p>User ID: @Context.Session.GetInt32("UserId")</p>
-    <p>Username: @Context.Session.GetString("UserName")</p>
-    <p>Role: FacilityHead</p>
-</div>
+    <div class="main-content">
+        <div class="topbar">
+            <span class="username">Welcome, @ViewBag.Username</span>
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="stats">
+            <div class="card">
+                <h3>Total Assigned</h3>
+                <p>@ViewBag.TotalAssigned</p>
+            </div>
+            <div class="card">
+                <h3>Pending</h3>
+                <p>@ViewBag.PendingCount</p>
+            </div>
+            <div class="card">
+                <h3>In Progress</h3>
+                <p>@ViewBag.InProgressCount</p>
+            </div>
+            <div class="card">
+                <h3>Resolved</h3>
+                <p>@ViewBag.ResolvedCount</p>
+            </div>
+        </div>
+
+
+        <h2>Assigned Requests</h2>
+        <div class="export-buttons">
+            <button onclick="exportToPDF('requests-table')">Export to PDF</button>
+            <button onclick="exportToExcel()">Export to Excel</button>
+        </div>
+
+        <table id="requests-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Request ID</th>
+                    <th onclick="sortTable(1)">Title</th>
+                    <th onclick="sortTable(2)">Status<th>
+                    <th onclick="sortTable(3)">User</th>
+                    <th onclick="sortTable(4)">Facility</th>
+                    <th onclick="sortTable(5)">Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var req in Model)
+                {
+                    <tr>
+                        <td>@req.RequestId</td>
+                        <td>@req.Title</td>
+                        <td>@req.Status</td>
+                        <td>@req.User.FullName</td>
+                        <td>@req.Facility.Name</td>
+                        <td>@req.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+
+    <script src="~/Admin/script.js"></script>
+</body>
+</html>
