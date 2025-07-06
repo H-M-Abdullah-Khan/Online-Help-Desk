@@ -79,7 +79,7 @@ namespace Online_Help_Desk.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     FacilityId = table.Column<int>(type: "int", nullable: false),
-                    AssignedToUserId = table.Column<int>(type: "int", nullable: false),
+                    AssignedToUserId = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },

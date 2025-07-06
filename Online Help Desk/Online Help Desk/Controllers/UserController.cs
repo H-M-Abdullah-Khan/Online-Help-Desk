@@ -73,6 +73,7 @@ namespace Online_Help_Desk.Controllers
 
             model.Status = RequestStatus.Pending;
             model.CreatedAt = DateTime.Now;
+            model.AssignedToUserId = null;
 
             _context.Requests.Add(model);
             _context.SaveChanges();

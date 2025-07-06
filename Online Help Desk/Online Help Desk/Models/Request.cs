@@ -36,7 +36,7 @@ namespace Online_Help_Desk.Models
         public int FacilityId { get; set; }
         public Facility? Facility { get; set; }
 
-        public int AssignedToUserId { get; set; }
+        public int? AssignedToUserId { get; set; }
         public User? AssignedToUser { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;

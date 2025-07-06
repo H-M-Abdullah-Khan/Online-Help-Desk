@@ -85,7 +85,7 @@ namespace Online_Help_Desk.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestId"));
 
-                    b.Property<int>("AssignedToUserId")
+                    b.Property<int?>("AssignedToUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -207,8 +207,7 @@ namespace Online_Help_Desk.Migrations
                     b.HasOne("Online_Help_Desk.Models.User", "AssignedToUser")
                         .WithMany()
                         .HasForeignKey("AssignedToUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Online_Help_Desk.Models.Facility", "Facility")
                         .WithMany()

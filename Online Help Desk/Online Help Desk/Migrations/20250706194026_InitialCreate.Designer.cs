@@ -12,7 +12,7 @@ using Online_Help_Desk.Models;
 namespace Online_Help_Desk.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250703182725_InitialCreate")]
+    [Migration("20250706194026_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -88,7 +88,7 @@ namespace Online_Help_Desk.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestId"));
 
-                    b.Property<int>("AssignedToUserId")
+                    b.Property<int?>("AssignedToUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -210,8 +210,7 @@ namespace Online_Help_Desk.Migrations
                     b.HasOne("Online_Help_Desk.Models.User", "AssignedToUser")
                         .WithMany()
                         .HasForeignKey("AssignedToUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Online_Help_Desk.Models.Facility", "Facility")
                         .WithMany()
