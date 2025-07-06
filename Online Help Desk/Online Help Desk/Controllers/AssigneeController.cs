@@ -25,6 +25,9 @@ namespace Online_Help_Desk.Controllers
             if (!IsAssignee()) return RedirectToAction("Login", "Auth");
 
             int uid = GetUserId();
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            ViewBag.Username = currentUser?.FullName ?? "Assignee";
+
             var assigned = _context.Requests.Where(r => r.AssignedToUserId == uid);
 
             ViewBag.TotalTasks = assigned.Count();
@@ -32,8 +35,9 @@ namespace Online_Help_Desk.Controllers
             ViewBag.Pending = assigned.Count(r => r.Status == RequestStatus.Assigned);
             ViewBag.Completed = assigned.Count(r => r.Status == RequestStatus.Closed);
 
-            return View(assigned.ToList()); // optional: show recent tasks
+            return View(assigned.ToList());
         }
+
 
         // 📋 View My Assigned Tasks
         public IActionResult MyTasks()
@@ -41,14 +45,23 @@ namespace Online_Help_Desk.Controllers
             if (!IsAssignee()) return RedirectToAction("Login", "Auth");
 
             int uid = GetUserId();
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            ViewBag.Username = currentUser?.FullName ?? "Assignee";
+
             var tasks = _context.Requests
                 .Include(r => r.User)
                 .Include(r => r.Facility)
                 .Where(r => r.AssignedToUserId == uid)
                 .ToList();
 
+            ViewBag.TotalTasks = _context.Requests.Count(r => r.AssignedToUserId == uid);
+            ViewBag.PendingTasks = _context.Requests.Count(r => r.AssignedToUserId == uid && r.Status == RequestStatus.Assigned);
+            ViewBag.InProgressTasks = _context.Requests.Count(r => r.AssignedToUserId == uid && r.Status == RequestStatus.InProgress);
+            ViewBag.ResolvedTasks = _context.Requests.Count(r => r.AssignedToUserId == uid && r.Status == RequestStatus.Closed);
+
             return View(tasks);
         }
+
 
         // 🛠️ GET Update Form
         public IActionResult UpdateRequest(int id)
@@ -61,21 +74,21 @@ namespace Online_Help_Desk.Controllers
 
         // 🛠️ POST Update Request
         [HttpPost]
-        public IActionResult UpdateRequest(Request model)
+        public IActionResult UpdateStatus(int requestId, RequestStatus status)
         {
             if (!IsAssignee()) return RedirectToAction("Login", "Auth");
 
-            var req = _context.Requests.FirstOrDefault(r => r.RequestId == model.RequestId);
+            var req = _context.Requests.FirstOrDefault(r => r.RequestId == requestId);
             if (req != null)
             {
-                req.Status = model.Status;
+                req.Status = status;
                 req.UpdatedAt = DateTime.Now;
 
                 _context.StatusHistories.Add(new StatusHistory
                 {
                     RequestId = req.RequestId,
                     UpdatedByUserId = GetUserId(),
-                    Status = model.Status,
+                    Status = status,
                     UpdatedAt = DateTime.Now
                 });
 
@@ -84,5 +97,29 @@ namespace Online_Help_Desk.Controllers
 
             return RedirectToAction("MyTasks");
         }
+        public IActionResult RecentTasks()
+        {
+            if (!IsAssignee()) return RedirectToAction("Login", "Auth");
+
+            int uid = GetUserId();
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            ViewBag.Username = currentUser?.FullName ?? "Assignee";
+
+            var recentTasks = _context.Requests
+                .Include(r => r.User)
+                .Include(r => r.Facility)
+                .Where(r => r.AssignedToUserId == uid)
+                .OrderByDescending(r => r.UpdatedAt ?? r.CreatedAt)
+                .Take(10)
+                .ToList();
+
+            ViewBag.TotalTasks = _context.Requests.Count(r => r.AssignedToUserId == uid);
+            ViewBag.PendingTasks = _context.Requests.Count(r => r.AssignedToUserId == uid && r.Status == RequestStatus.Assigned);
+            ViewBag.InProgressTasks = _context.Requests.Count(r => r.AssignedToUserId == uid && r.Status == RequestStatus.InProgress);
+            ViewBag.ResolvedTasks = _context.Requests.Count(r => r.AssignedToUserId == uid && r.Status == RequestStatus.Closed);
+
+            return View(recentTasks);
+        }
+
     }
 }

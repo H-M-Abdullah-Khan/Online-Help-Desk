@@ -1,5 +1,117 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Online_Help_Desk.Models
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Tasks</title>
+    <link rel="stylesheet" href="~/Admin/style.css" />
+    <style>
+        select {
+            padding: 5px 10px;
+            margin-right: 5px;
+            font-size: 14px;
+        }
+
+        .btn-sm {
+            padding: 5px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: none;
+            color: white;
+            background-color: #28a745;
+            cursor: pointer;
+        }
+
+            .btn-sm:hover {
+                background-color: #218838;
+            }
+    </style>
+</head>
+<body>
+    <div class="sidenav">
+        <h2>Assignee Panel</h2>
+        <a href="@Url.Action("Dashboard", "Assignee")">Dashboard</a>
+        <a href="@Url.Action("MyTasks", "Assignee")" class="active">My Tasks</a>
+        <a href="@Url.Action("RecentTasks", "Assignee")">Recent Tasks</a>
+        <a href="@Url.Action("Logout", "Auth")">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <span class="username">Welcome, @ViewBag.Username</span>
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle" />
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="stats">
+            <div class="card">
+                <h3>Total Tasks</h3>
+                <p>@ViewBag.TotalTasks</p>
+            </div>
+            <div class="card">
+                <h3>Pending</h3>
+                <p>@ViewBag.PendingTasks</p>
+            </div>
+            <div class="card">
+                <h3>In Progress</h3>
+                <p>@ViewBag.InProgressTasks</p>
+            </div>
+            <div class="card">
+                <h3>Resolved</h3>
+                <p>@ViewBag.ResolvedTasks</p>
+            </div>
+        </div>
+
+
+        <h2>My Assigned Tasks</h2>
+        <div class="export-buttons">
+            <button onclick="exportToPDF('tasks-table')">Export to PDF</button>
+            <button onclick="exportToExcel()">Export to Excel</button>
+        </div>
+
+        <table id="tasks-table">
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Submitted By</th>
+                    <th>Facility</th>
+                    <th>Created At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var req in Model)
+                {
+                    <tr>
+                        <td>@req.RequestId</td>
+                        <td>@req.Title</td>
+                        <td>@req.Status</td>
+                        <td>@req.User?.FullName</td>
+                        <td>@req.Facility?.Name</td>
+                        <td>@req.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")</td>
+                        <td>
+                            <form asp-action="UpdateStatus" asp-controller="Assignee" method="post">
+                                <input type="hidden" name="requestId" value="@req.RequestId" />
+                                <select name="status" required>
+                                    <option value="">-- Select Status --</option>
+                                    <option value="2" selected="@(req.Status == RequestStatus.InProgress)">In Progress</option>
+                                    <option value="3" selected="@(req.Status == RequestStatus.Closed)">Closed</option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-success">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+    <script src="~/Admin/script.js"></script>
+</body>
+</html>

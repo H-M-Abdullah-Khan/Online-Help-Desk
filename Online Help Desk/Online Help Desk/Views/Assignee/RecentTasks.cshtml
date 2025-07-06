@@ -1,17 +1,19 @@
-﻿<!DOCTYPE html>
+﻿@model List<Online_Help_Desk.Models.Request>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facility Head Dashboard</title>
-    <link rel="stylesheet" href="~/Admin/style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recent Tasks</title>
+    <link rel="stylesheet" href="~/Admin/style.css" />
 </head>
 <body>
     <div class="sidenav">
         <h2>Assignee Panel</h2>
-        <a href="@Url.Action("Dashboard", "Assignee")" class="active">Dashboard</a>
+        <a href="@Url.Action("Dashboard", "Assignee")">Dashboard</a>
         <a href="@Url.Action("MyTasks", "Assignee")">My Tasks</a>
-        <a href="@Url.Action("RecentTasks", "Assignee")">Recent Tasks</a>
+        <a href="@Url.Action("RecentTasks", "Assignee")" class="active">Recent Tasks</a>
         <a href="@Url.Action("Logout", "Auth")">Logout</a>
     </div>
 
@@ -19,48 +21,46 @@
         <div class="topbar">
             <span class="username">Welcome, @ViewBag.Username</span>
             <label class="switch">
-                <input type="checkbox" id="theme-toggle">
+                <input type="checkbox" id="theme-toggle" />
                 <span class="slider"></span>
             </label>
         </div>
 
         <div class="stats">
             <div class="card">
-                <h3>Total Assigned</h3>
+                <h3>Total Tasks</h3>
                 <p>@ViewBag.TotalTasks</p>
             </div>
             <div class="card">
                 <h3>Pending</h3>
-                <p>@ViewBag.Pending</p>
+                <p>@ViewBag.PendingTasks</p>
             </div>
             <div class="card">
                 <h3>In Progress</h3>
-                <p>@ViewBag.InProgress</p>
+                <p>@ViewBag.InProgressTasks</p>
             </div>
             <div class="card">
                 <h3>Resolved</h3>
-                <p>@ViewBag.Completed</p>
+                <p>@ViewBag.ResolvedTasks</p>
             </div>
         </div>
 
 
-
-        <h2>Assigned Requests</h2>
+        <h2>Recent Task Activity</h2>
         <div class="export-buttons">
-            <button onclick="exportToPDF('requests-table')">Export to PDF</button>
+            <button onclick="exportToPDF('recent-table')">Export to PDF</button>
             <button onclick="exportToExcel()">Export to Excel</button>
         </div>
 
-        <table id="requests-table">
+        <table id="recent-table">
             <thead>
                 <tr>
                     <th onclick="sortTable(0)">Request ID</th>
                     <th onclick="sortTable(1)">Title</th>
                     <th onclick="sortTable(2)">Status</th>
-                    <th onclick="sortTable(3)">Description</th>
+                    <th onclick="sortTable(3)">Facility</th>
                     <th onclick="sortTable(4)">Submitted By</th>
-                    <th onclick="sortTable(5)">Facility</th>
-                    <th onclick="sortTable(6)">Created At</th>
+                    <th onclick="sortTable(5)">Last Updated</th>
                 </tr>
             </thead>
             <tbody>
@@ -70,21 +70,15 @@
                         <td>@req.RequestId</td>
                         <td>@req.Title</td>
                         <td>@req.Status</td>
-                        <td>@req.Description</td>
-                        <td>@req.User?.FullName</td>
                         <td>@req.Facility?.Name</td>
-                        <td>@req.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")</td>
+                        <td>@req.User?.FullName</td>
+                        <td>@(req.UpdatedAt?.ToString("yyyy-MM-dd hh:mm tt") ?? req.CreatedAt.ToString("yyyy-MM-dd hh:mm tt"))</td>
                     </tr>
                 }
             </tbody>
         </table>
-
-
     </div>
-
 
     <script src="~/Admin/script.js"></script>
 </body>
 </html>
-
-
