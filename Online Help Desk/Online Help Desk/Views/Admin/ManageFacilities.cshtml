@@ -1,10 +1,53 @@
-﻿<!DOCTYPE html>
+﻿@model List<Online_Help_Desk.Models.Facility>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="~/Admin/style.css">
+    <title>Manage Facilities</title>
+    <link rel="stylesheet" href="~/Admin/style.css" />
+    <style>
+        .form-container {
+            margin-bottom: 30px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid var(--border-color);
+                border-radius: 5px;
+                background: var(--card-bg);
+                color: var(--text-color);
+            }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            .submit-btn:hover {
+                background-color: var(--secondary-color);
+            }
+    </style>
 </head>
 <body>
     <div class="sidenav">
@@ -14,7 +57,6 @@
         <a href="@Url.Action("ManageUsers", "Admin")">Manage Users</a>
         <a href="@Url.Action("ManageFacilityHead", "Admin")">Manage Facility Head</a>
         <a href="@Url.Action("ManageFacilities", "Admin")" class="active">Manage Facilities</a>
-        <a href="@Url.Action("Approvals", "Admin")">Registration Requests</a>
         <a href="@Url.Action("Logout", "Auth")">Logout</a>
     </div>
 
@@ -27,32 +69,20 @@
             </label>
         </div>
 
-        <div class="stats">
-            <div class="card">
-                <h3>Total Facilities</h3>
-                <p>@ViewBag.TotalFacilities</p>
+        <h2>Add New Facility</h2>
+        <form method="post" action="@Url.Action("AddFacility", "Admin")" class="form-container">
+            <div class="form-group">
+                <label for="Name">Facility Name</label>
+                <input type="text" id="Name" name="Name" required />
             </div>
-            <div class="card">
-                <h3>Assigned Requests</h3>
-                <p>@ViewBag.FacilityRequests</p>
+            <div class="form-group">
+                <label for="Location">Location</label>
+                <input type="text" id="Location" name="Location" required />
             </div>
-            <div class="card">
-                <h3>Unique Locations</h3>
-                <p>@ViewBag.UniqueLocations</p>
-            </div>
-            <div class="card">
-                <h3>Facilities with No Requests</h3>
-                <p>@ViewBag.UnusedFacilities</p>
-            </div>
-        </div>
+            <button type="submit" class="submit-btn">Add Facility</button>
+        </form>
 
-
-        <h2>Manage Facilities</h2>
-        <div class="export-buttons">
-            <button onclick="exportToPDF('requests-table')">Export to PDF</button>
-            <button onclick="exportToExcel()">Export to Excel</button>
-        </div>
-
+        <h2>All Facilities</h2>
         <table id="requests-table">
             <thead>
                 <tr>
@@ -62,18 +92,17 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var f in Model)
+                @foreach (var facility in Model)
                 {
                     <tr>
-                        <td>@f.FacilityId</td>
-                        <td>@f.Name</td>
-                        <td>@f.Location</td>
+                        <td>@facility.FacilityId</td>
+                        <td>@facility.Name</td>
+                        <td>@facility.Location</td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-
 
     <script src="~/Admin/script.js"></script>
 </body>

@@ -70,15 +70,46 @@ namespace Online_Help_Desk.Controllers
 
         public IActionResult ManageFacilities()
         {
-            if (!IsAdmin()) return RedirectToAction("Login", "Auth");
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Auth");
+
             ViewBag.TotalFacilities = _context.Facilities.Count();
-            ViewBag.FacilityRequests = _context.Requests.Select(r => r.FacilityId).Distinct().Count();
-            ViewBag.UniqueLocations = _context.Facilities.Select(f => f.Location).Distinct().Count();
+            ViewBag.FacilityRequests = _context.Requests
+                .Select(r => r.FacilityId)
+                .Distinct()
+                .Count();
+
+            ViewBag.UniqueLocations = _context.Facilities
+                .Select(f => f.Location)
+                .Distinct()
+                .Count();
+
             ViewBag.UnusedFacilities = _context.Facilities
                 .Count(f => !_context.Requests.Any(r => r.FacilityId == f.FacilityId));
 
             return View(_context.Facilities.ToList());
         }
+
+        [HttpPost]
+        public IActionResult AddFacility(Facility facility)
+        {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Auth");
+
+            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(facility.Name))
+            {
+                _context.Facilities.Add(facility);
+                _context.SaveChanges();
+                TempData["Success"] = "Facility added successfully!";
+            }
+            else
+            {
+                TempData["Error"] = "Facility name is required.";
+            }
+
+            return RedirectToAction("ManageFacilities");
+        }
+
 
         public IActionResult ManageFacilityHead()
         {

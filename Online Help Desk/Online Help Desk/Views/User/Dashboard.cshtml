@@ -1,13 +1,83 @@
-﻿@{
+﻿@model List<Online_Help_Desk.Models.Request>
+@{
     ViewData["Title"] = "User Dashboard";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    var username = Context.Session.GetString("Username") ?? "User";
 }
 
-<div class="dashboard-container">
-    <h2>Welcome to the User Dashboard!</h2>
-    <p>This is your personal dashboard.</p>
-    <p>User ID: @Context.Session.GetInt32("UserId")</p>
-    <p>Username: @Context.Session.GetString("UserName")</p>
-    <p>Role: EndUser</p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="~/Admin/style.css" />
+</head>
+<body>
+    <div class="sidenav">
+        <h2>User Panel</h2>
+        <a href="@Url.Action("Dashboard", "User")" class="active">Dashboard</a>
+        <a href="@Url.Action("NewRequest", "User")">New Request</a>
+        <a href="@Url.Action("TrackRequests", "User")">Track Requests</a>
+        <a href="@Url.Action("Logout", "Auth")">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <span class="username">Welcome, @username</span>
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle" />
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="stats">
+            <div class="card">
+                <h3>Total Requests</h3>
+                <p>@ViewBag.RequestCount</p>
+            </div>
+            <div class="card">
+                <h3>Pending</h3>
+                <p>@ViewBag.PendingCount</p>
+            </div>
+            <div class="card">
+                <h3>Resolved</h3>
+                <p>@ViewBag.ResolvedCount</p>
+            </div>
+        </div>
+
+        <h2>Recent Requests</h2>
+        <div class="export-buttons">
+            <button onclick="exportToPDF('requests-table')">Export to PDF</button>
+            <button onclick="exportToExcel()">Export to Excel</button>
+        </div>
+
+        <table id="requests-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Request ID</th>
+                    <th onclick="sortTable(1)">Title</th>
+                    <th onclick="sortTable(2)">Status</th>
+                    <th onclick="sortTable(3)">Facility</th>
+                    <th onclick="sortTable(4)">Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var req in Model.Take(10))
+                {
+                    <tr>
+                        <td>@req.RequestId</td>
+                        <td>@req.Title</td>
+                        <td>@req.Status</td>
+                        <td>@req.Facility?.Name</td>
+                        <td>@req.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script src="~/Admin/script.js"></script>
+</body>
+</html>
+
 

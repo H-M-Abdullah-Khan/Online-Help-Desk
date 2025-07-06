@@ -29,6 +29,12 @@ namespace Online_Help_Desk.Controllers
             if (!IsEndUser()) return RedirectToAction("Login", "Auth");
 
             int uid = GetUserId();
+            var user = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            HttpContext.Session.SetString("Username", user?.FullName ?? "User");
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            ViewBag.Username = currentUser?.FullName ?? "User";
+
+
             var userRequests = _context.Requests
                 .Include(r => r.Facility)
                 .Where(r => r.UserId == uid)
@@ -46,6 +52,10 @@ namespace Online_Help_Desk.Controllers
         public IActionResult NewRequest()
         {
             if (!IsEndUser()) return RedirectToAction("Login", "Auth");
+            int uid = GetUserId();
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            ViewBag.Username = currentUser?.FullName ?? "User";
+
 
             ViewBag.Facilities = _context.Facilities.ToList(); // for dropdown
             return View();
@@ -57,13 +67,17 @@ namespace Online_Help_Desk.Controllers
         {
             if (!IsEndUser()) return RedirectToAction("Login", "Auth");
 
-            model.UserId = GetUserId();
+            int uid = GetUserId();
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            ViewBag.Username = currentUser?.FullName ?? "User";
+
             model.Status = RequestStatus.Pending;
             model.CreatedAt = DateTime.Now;
 
             _context.Requests.Add(model);
             _context.SaveChanges();
 
+            TempData["RequestSubmitted"] = "Your request has been submitted successfully!";
             return RedirectToAction("TrackRequests");
         }
 
@@ -73,14 +87,22 @@ namespace Online_Help_Desk.Controllers
             if (!IsEndUser()) return RedirectToAction("Login", "Auth");
 
             int uid = GetUserId();
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            ViewBag.Username = currentUser?.FullName ?? "User";
+
             var requests = _context.Requests
                 .Include(r => r.Facility)
                 .Where(r => r.UserId == uid)
                 .OrderByDescending(r => r.CreatedAt)
                 .ToList();
 
+            ViewBag.Total = requests.Count;
+            ViewBag.Pending = requests.Count(r => r.Status == RequestStatus.Pending || r.Status == RequestStatus.Assigned);
+            ViewBag.Resolved = requests.Count(r => r.Status == RequestStatus.Closed);
+
             return View(requests);
         }
+
 
         // 🧠 CLOSE OWN REQUEST
         public IActionResult CloseRequest(int id)
@@ -88,14 +110,27 @@ namespace Online_Help_Desk.Controllers
             if (!IsEndUser()) return RedirectToAction("Login", "Auth");
 
             int uid = GetUserId();
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            ViewBag.Username = currentUser?.FullName ?? "User";
             var req = _context.Requests.FirstOrDefault(r => r.RequestId == id && r.UserId == uid);
 
             if (req != null && req.Status != RequestStatus.Closed)
             {
                 req.Status = RequestStatus.Closed;
                 req.UpdatedAt = DateTime.Now;
+
+                _context.StatusHistories.Add(new StatusHistory
+                {
+                    RequestId = req.RequestId,
+                    UpdatedByUserId = uid,
+                    Status = RequestStatus.Closed,
+                    UpdatedAt = DateTime.Now
+                });
+
                 _context.SaveChanges();
+                TempData["RequestClosed"] = "Your request was closed successfully!";
             }
+
 
             return RedirectToAction("TrackRequests");
         }

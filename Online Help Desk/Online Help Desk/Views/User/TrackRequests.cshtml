@@ -1,5 +1,123 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Online_Help_Desk.Models
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="~/Admin/style.css" />
+    <style>
+        .btn-sm {
+            padding: 6px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+            .btn-danger:hover {
+                background-color: #c82333;
+            }
+
+    </style>
+</head>
+<body>
+    <div class="sidenav">
+        <h2>User Panel</h2>
+        <a href="@Url.Action("Dashboard", "User")" class="active">Dashboard</a>
+        <a href="@Url.Action("NewRequest", "User")">New Request</a>
+        <a href="@Url.Action("TrackRequests", "User")">Track Requests</a>
+        <a href="@Url.Action("Logout", "Auth")">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <span class="username">Welcome, @ViewBag.Username</span>
+        </div>
+
+        <div class="stats">
+            <div class="card">
+                <h3>Total Requests</h3>
+                <p>@ViewBag.Total</p>
+            </div>
+            <div class="card">
+                <h3>Pending</h3>
+                <p>@ViewBag.Pending</p>
+            </div>
+            <div class="card">
+                <h3>Resolved</h3>
+                <p>@ViewBag.Resolved</p>
+            </div>
+        </div>
+
+
+        <h2>My Requests</h2>
+        <div class="export-buttons">
+            <button onclick="exportToPDF('requests-table')">Export to PDF</button>
+            <button onclick="exportToExcel()">Export to Excel</button>
+        </div>
+
+        <table id="requests-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Request ID</th>
+                    <th onclick="sortTable(1)">Title</th>
+                    <th onclick="sortTable(2)">Facility</th>
+                    <th onclick="sortTable(3)">Status</th>
+                    <th onclick="sortTable(4)">Created At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var req in Model)
+                {
+                    <tr>
+                        <td>@req.RequestId</td>
+                        <td>@req.Title</td>
+                        <td>@req.Facility?.Name</td>
+                        <td>@req.Status</td>
+                        <td>@req.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")</td>
+                        <td>
+                            @if (req.Status != RequestStatus.Closed)
+                            {
+                                <a href="@Url.Action("CloseRequest", "User", new { id = req.RequestId })"
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Are you sure you want to close this request?')">Close</a>
+                            }
+                            else
+                            {
+                                <span style="color:green;font-weight:600;">Closed</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+    </div>
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        @if (TempData["RequestClosed"] != null)
+        {
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Request Closed',
+                    text: '@TempData["RequestClosed"]',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            </script>
+        }
+    }
+
+
+        <script src="~/Admin/script.js"></script>
+</body>
+</html>

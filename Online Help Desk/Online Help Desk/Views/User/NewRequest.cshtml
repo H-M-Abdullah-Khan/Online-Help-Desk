@@ -1,5 +1,195 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "New Request";
+    var facilities = ViewBag.Facilities as List<Online_Help_Desk.Models.Facility> ?? new List<Online_Help_Desk.Models.Facility>();
 }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit New Request</title>
+    <link rel="stylesheet" href="~/Admin/style.css">
+    <style>
+        .dot-loading {
+            display: inline-block;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        .form-container {
+            padding: 20px;
+            background: #fff;
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                font-weight: 600;
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .submit-btn:hover {
+                background-color: #0056b3;
+            }
+
+        body.dark-mode input,
+        body.dark-mode select,
+        body.dark-mode textarea {
+            background-color: #2a2a2a;
+            color: #f0f0f0;
+            border: 1px solid var(--border-color);
+        }
+
+            body.dark-mode input::placeholder,
+            body.dark-mode textarea::placeholder {
+                color: #aaa;
+            }
+
+        body.dark-mode .form-section,
+        body.dark-mode .form-group {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        body.dark-mode .btn,
+        body.dark-mode button {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+            body.dark-mode .btn:hover,
+            body.dark-mode button:hover {
+                background-color: var(--secondary-color);
+            }
+        /* Fix container background in dark mode */
+        body.dark-mode .form-container {
+            background-color: var(--card-bg); /* dark background */
+            color: var(--text-color); /* light text */
+        }
+
+            /* Fix heading in dark mode */
+            body.dark-mode .form-container h2,
+            body.dark-mode .form-container label {
+                color: var(--text-color); /* ensure labels/headings are visible */
+            }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="sidenav">
+        <h2>User Panel</h2>
+        <a href="@Url.Action("Dashboard", "User")">Dashboard</a>
+        <a href="@Url.Action("NewRequest", "User")" class="active">New Request</a>
+        <a href="@Url.Action("TrackRequests", "User")">Track Requests</a>
+        <a href="@Url.Action("Logout", "Auth")">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <span class="username">Welcome, @ViewBag.Username</span>
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="form-container">
+            <h2>Submit a New Request</h2>
+
+            <form method="post" action="@Url.Action("NewRequest", "User")">
+                <div class="form-group">
+                    <label for="Title">Title</label>
+                    <input type="text" name="Title" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="Description">Description</label>
+                    <textarea name="Description" rows="10" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="FacilityId">Select Facility</label>
+                    <select name="FacilityId" required>
+                        <option value="">-- Select Facility --</option>
+                        @foreach (var facility in facilities)
+                        {
+                            <option value="@facility.FacilityId">@facility.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        @if (TempData["RequestSubmitted"] != null)
+        {
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Request Submitted',
+                    text: '@TempData["RequestSubmitted"]',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+
+                setTimeout(function () {
+                    window.location.href = '@Url.Action("TrackRequests", "User")';
+                }, 3000);
+            </script>
+        }
+
+        <script>
+            $(document).ready(function () {
+                $('form').on('submit', function () {
+                    const $btn = $('button[type="submit"]');
+                    $btn.prop('disabled', true);
+                    $btn.html('Submitting<span class="dot-loading">.</span>');
+
+                    // Simple loading animation
+                    let dots = 1;
+                    const interval = setInterval(() => {
+                        dots = (dots % 3) + 1;
+                        $btn.find('.dot-loading').text('.'.repeat(dots));
+                    }, 500);
+                });
+            });
+        </script>
+    }
+
+
+    <script src="~/Admin/script.js"></script>
+</body>
+</html>
+
