@@ -66,6 +66,7 @@ namespace Online_Help_Desk.Controllers
         }
 
         // ✅ Assign to Assignee
+        [HttpPost]
         public IActionResult Assign(int id, int userId)
         {
             if (!IsFacilityHead()) return RedirectToAction("Login", "Auth");

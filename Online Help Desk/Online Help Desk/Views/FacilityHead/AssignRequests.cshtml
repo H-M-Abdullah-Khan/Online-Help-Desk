@@ -78,10 +78,11 @@
                 <tr>
                     <th onclick="sortTable(0)">Request ID</th>
                     <th onclick="sortTable(1)">Title</th>
-                    <th onclick="sortTable(2)">Status
+                    <th onclick="sortTable(2)">Status</th>
                     <th onclick="sortTable(3)">User</th>
                     <th onclick="sortTable(4)">Facility</th>
                     <th onclick="sortTable(5)">Created At</th>
+                    <th onclick="sortTable(6)">Do Tasks To Assignee</th>
                 </tr>
             </thead>
             <tbody>
@@ -95,7 +96,7 @@
                         <td>@req.User?.FullName</td>
                         <td>@req.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")</td>
                         <td>
-                            <form action="FacilityHead/Assign" method="get" style="display:inline;">
+                            <form asp-action="Assign" asp-controller="FacilityHead" method="post" style="display:inline;">
                                 <input type="hidden" name="id" value="@req.RequestId" />
                                 <select name="userId" required>
                                     <option value="">-- Select Assignee --</option>
@@ -106,6 +107,7 @@
                                 </select>
                                 <button type="submit" class="assign-btn">Assign</button>
                             </form>
+
                         </td>
                     </tr>
                 }
