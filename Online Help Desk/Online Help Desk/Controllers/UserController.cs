@@ -71,6 +71,8 @@ namespace Online_Help_Desk.Controllers
             var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
             ViewBag.Username = currentUser?.FullName ?? "User";
 
+            model.UserId = uid;
+
             model.Status = RequestStatus.Pending;
             model.CreatedAt = DateTime.Now;
             model.AssignedToUserId = null;
