@@ -11,38 +11,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Dashboard</title>
     <link rel="stylesheet" href="~/Admin/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+
+    <!-- Mobile Toggle -->
+    <button class="mobile-toggle" onclick="openNav()">☰</button>
+
+    <!-- Mobile Slide-in Panel -->
+    <div id="mySidepanel" class="sidepanel">
+        <span class="closebtn" onclick="closeNav()">×</span>
+        <a href="@Url.Action("Dashboard", "User")"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="@Url.Action("NewRequest", "User")"><i class="fas fa-plus-circle"></i> New Request</a>
+        <a href="@Url.Action("TrackRequests", "User")"><i class="fas fa-search-location"></i> Track Requests</a>
+        <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Sidebar Desktop -->
     <div class="sidenav">
         <h2>User Panel</h2>
-        <a href="@Url.Action("Dashboard", "User")" class="active">Dashboard</a>
-        <a href="@Url.Action("NewRequest", "User")">New Request</a>
-        <a href="@Url.Action("TrackRequests", "User")">Track Requests</a>
-        <a href="@Url.Action("Logout", "Auth")">Logout</a>
+        <a href="@Url.Action("Dashboard", "User")" class="active"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="@Url.Action("NewRequest", "User")"><i class="fas fa-plus-circle"></i> New Request</a>
+        <a href="@Url.Action("TrackRequests", "User")"><i class="fas fa-search-location"></i> Track Requests</a>
+        <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
     <div class="main-content">
         <div class="topbar">
             <span class="username">Welcome, @username</span>
-            <label class="switch">
-                <input type="checkbox" id="theme-toggle" />
-                <span class="slider"></span>
+            <label class="switch theme-switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"><span class="icon" id="theme-icon">🌙</span></span>
             </label>
         </div>
 
-        <div class="stats">
-            <div class="card">
-                <h3>Total Requests</h3>
-                <p>@ViewBag.RequestCount</p>
-            </div>
-            <div class="card">
-                <h3>Pending</h3>
-                <p>@ViewBag.PendingCount</p>
-            </div>
-            <div class="card">
-                <h3>Resolved</h3>
-                <p>@ViewBag.ResolvedCount</p>
-            </div>
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-card"><canvas id="chart1"></canvas></div>
+            <div class="chart-card"><canvas id="chart2"></canvas></div>
+            <div class="chart-card"><canvas id="chart3"></canvas></div>
+            <div class="chart-card"><canvas id="chart4"></canvas></div>
         </div>
 
         <h2>Recent Requests</h2>
@@ -51,33 +60,107 @@
             <button onclick="exportToExcel()">Export to Excel</button>
         </div>
 
-        <table id="requests-table">
-            <thead>
-                <tr>
-                    <th onclick="sortTable(0)">Request ID</th>
-                    <th onclick="sortTable(1)">Title</th>
-                    <th onclick="sortTable(2)">Status</th>
-                    <th onclick="sortTable(3)">Facility</th>
-                    <th onclick="sortTable(4)">Created At</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var req in Model.Take(10))
-                {
+        <div class="responsive-table">
+            <table id="requests-table">
+                <thead>
                     <tr>
-                        <td>@req.RequestId</td>
-                        <td>@req.Title</td>
-                        <td>@req.Status</td>
-                        <td>@req.Facility?.Name</td>
-                        <td>@req.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")</td>
+                        <th onclick="sortTable(0)">Request ID</th>
+                        <th onclick="sortTable(1)">Title</th>
+                        <th onclick="sortTable(2)">Status</th>
+                        <th onclick="sortTable(3)">Facility</th>
+                        <th onclick="sortTable(4)">Created At</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var req in Model.Take(10))
+                    {
+                        <tr>
+                            <td>REQ-@req.RequestId</td>
+                            <td>@req.Title</td>
+                            <td>@req.Status</td>
+                            <td>@req.Facility?.Name</td>
+                            <td>@req.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script src="~/Admin/script.js"></script>
+
+    <!-- Chart Scripts -->
+    <script>
+        const lightMode = window.matchMedia('(prefers-color-scheme: light)').matches;
+        const gridColor = lightMode ? '#ccc' : '#555';
+        const textColor = lightMode ? '#333' : '#eee';
+
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: textColor } }
+            },
+            scales: {
+                x: { ticks: { color: textColor }, grid: { color: gridColor } },
+                y: { ticks: { color: textColor }, grid: { color: gridColor } }
+            }
+        };
+
+        new Chart(document.getElementById('chart1'), {
+            type: 'bar',
+            data: {
+                labels: ['Total Requests', 'Pending'],
+                datasets: [{
+                    label: 'Requests',
+                    data: [@ViewBag.RequestCount, @ViewBag.PendingCount],
+                    backgroundColor: ['#3498db', '#e67e22']
+                }]
+            },
+            options: commonOptions
+        });
+
+        new Chart(document.getElementById('chart2'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Resolved', 'Pending'],
+                datasets: [{
+                    data: [@ViewBag.ResolvedCount, @ViewBag.PendingCount],
+                    backgroundColor: ['#2ecc71', '#f39c12']
+                }]
+            },
+            options: {
+                ...commonOptions,
+                plugins: { ...commonOptions.plugins, legend: { position: 'bottom', labels: { color: textColor } } }
+            }
+        });
+
+        new Chart(document.getElementById('chart3'), {
+            type: 'line',
+            data: {
+                labels: ['W1', 'W2', 'W3', 'W4'],
+                datasets: [{
+                    label: 'Requests Trend (Dummy)',
+                    data: [2, 4, 1, 5],
+                    borderColor: '#1abc9c',
+                    fill: false
+                }]
+            },
+            options: commonOptions
+        });
+
+        new Chart(document.getElementById('chart4'), {
+            type: 'bar',
+            data: {
+                labels: ['Resolved', 'Pending'],
+                datasets: [{
+                    label: 'Status Summary',
+                    data: [@ViewBag.ResolvedCount, @ViewBag.PendingCount],
+                    backgroundColor: ['#2ecc71', '#e74c3c']
+                }]
+            },
+            options: commonOptions
+        });
+    </script>
 </body>
 </html>
-
-

@@ -27,14 +27,29 @@
                 background-color: #218838;
             }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+
+    <!-- Mobile Toggle -->
+    <button class="mobile-toggle" onclick="openNav()">☰</button>
+
+    <!-- Mobile Slide-in Panel -->
+    <div id="mySidepanel" class="sidepanel">
+        <span class="closebtn" onclick="closeNav()">×</span>
+        <a href="@Url.Action("Dashboard", "Assignee")"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="@Url.Action("MyTasks", "Assignee")"><i class="fas fa-tasks"></i> My Tasks</a>
+        <a href="@Url.Action("RecentTasks", "Assignee")"><i class="fas fa-clock"></i> Recent Tasks</a>
+        <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Sidebar Desktop -->
     <div class="sidenav">
         <h2>Assignee Panel</h2>
-        <a href="@Url.Action("Dashboard", "Assignee")">Dashboard</a>
-        <a href="@Url.Action("MyTasks", "Assignee")" class="active">My Tasks</a>
-        <a href="@Url.Action("RecentTasks", "Assignee")">Recent Tasks</a>
-        <a href="@Url.Action("Logout", "Auth")">Logout</a>
+        <a href="@Url.Action("Dashboard", "Assignee")"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="@Url.Action("MyTasks", "Assignee")" class="active"><i class="fas fa-tasks"></i> My Tasks</a>
+        <a href="@Url.Action("RecentTasks", "Assignee")"><i class="fas fa-clock"></i> Recent Tasks</a>
+        <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
     <div class="main-content">
@@ -72,6 +87,7 @@
             <button onclick="exportToExcel()">Export to Excel</button>
         </div>
 
+        <div class="responsive-table">
         <table id="tasks-table">
             <thead>
                 <tr>
@@ -109,7 +125,7 @@
                 }
             </tbody>
         </table>
-
+        </div>
     </div>
 
     <script src="~/Admin/script.js"></script>

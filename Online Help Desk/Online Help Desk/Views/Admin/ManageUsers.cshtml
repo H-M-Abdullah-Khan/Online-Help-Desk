@@ -5,17 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="~/Admin/style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
+
+    <!-- Mobile Toggle Button -->
+    <button class="mobile-toggle" onclick="openNav()">☰</button>
+
+    <!-- Slide-in Sidepanel for Mobile -->
+    <div id="mySidepanel" class="sidepanel">
+        <span class="closebtn" onclick="closeNav()">×</span>
+        <a href="@Url.Action("Dashboard", "Admin")"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="@Url.Action("ManageRequests", "Admin")"><i class="fas fa-tasks"></i> Manage Requests</a>
+        <a href="@Url.Action("ManageUsers", "Admin")"><i class="fas fa-users"></i> Manage Users</a>
+        <a href="@Url.Action("ManageFacilityHead", "Admin")"><i class="fas fa-user-tie"></i> Facility Head</a>
+        <a href="@Url.Action("ManageFacilities", "Admin")"><i class="fas fa-building"></i> Facilities</a>
+        <a href="@Url.Action("Approvals", "Admin")"><i class="fas fa-user-check"></i> Approvals</a>
+        <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Permanent Sidebar for Desktop -->
     <div class="sidenav">
         <h2>Admin Panel</h2>
-        <a href="@Url.Action("Dashboard", "Admin")">Dashboard</a>
-        <a href="@Url.Action("ManageRequests", "Admin")">Manage Requests</a>
-        <a href="@Url.Action("ManageUsers", "Admin")" class="active">Manage Users</a>
-        <a href="@Url.Action("ManageFacilityHead", "Admin")">Manage Facility Head</a>
-        <a href="@Url.Action("ManageFacilities", "Admin")">Manage Facilities</a>
-        <a href="@Url.Action("Approvals", "Admin")">Registration Requests</a>
-        <a href="@Url.Action("Logout", "Auth")">Logout</a>
+        <a href="@Url.Action("Dashboard", "Admin")"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="@Url.Action("ManageRequests", "Admin")"><i class="fas fa-tasks"></i> Manage Requests</a>
+        <a href="@Url.Action("ManageUsers", "Admin")" class="active"><i class="fas fa-users"></i> Manage Users</a>
+        <a href="@Url.Action("ManageFacilityHead", "Admin")"><i class="fas fa-user-tie"></i> Facility Head</a>
+        <a href="@Url.Action("ManageFacilities", "Admin")"><i class="fas fa-building"></i> Facilities</a>
+        <a href="@Url.Action("Approvals", "Admin")"><i class="fas fa-user-check"></i> Approvals</a>
+        <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
     <div class="main-content">
@@ -54,6 +72,7 @@
             <button onclick="exportToExcel()">Export to Excel</button>
         </div>
 
+        <div class="responsive-table">
         <table id="requests-table">
             <thead>
                 <tr>
@@ -79,6 +98,7 @@
                 }
             </tbody>
         </table>
+        </div>
     </div>
 
 

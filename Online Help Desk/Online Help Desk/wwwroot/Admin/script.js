@@ -111,3 +111,21 @@ function loadScript(url, callback) {
     script.onload = callback;
     document.head.appendChild(script);
 }
+
+function openNav() {
+    document.getElementById("mySidepanel").style.width = "250px";
+}
+
+function closeNav() {
+    document.getElementById("mySidepanel").style.width = "0";
+}
+
+// Optional: close sidebar when clicking outside
+document.addEventListener('click', function (event) {
+    if (!document.getElementById('mySidepanel').contains(event.target) &&
+        !event.target.classList.contains('mobile-toggle')) {
+        closeNav();
+    }
+});
+
+

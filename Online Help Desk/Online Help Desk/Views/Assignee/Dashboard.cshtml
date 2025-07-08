@@ -2,48 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Assignee Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facility Head Dashboard</title>
     <link rel="stylesheet" href="~/Admin/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+
+    <!-- Mobile Toggle -->
+    <button class="mobile-toggle" onclick="openNav()">☰</button>
+
+    <!-- Mobile Slide-in Panel -->
+    <div id="mySidepanel" class="sidepanel">
+        <span class="closebtn" onclick="closeNav()">×</span>
+        <a href="@Url.Action("Dashboard", "Assignee")"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="@Url.Action("MyTasks", "Assignee")"><i class="fas fa-tasks"></i> My Tasks</a>
+        <a href="@Url.Action("RecentTasks", "Assignee")"><i class="fas fa-clock"></i> Recent Tasks</a>
+        <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Sidebar Desktop -->
     <div class="sidenav">
         <h2>Assignee Panel</h2>
-        <a href="@Url.Action("Dashboard", "Assignee")" class="active">Dashboard</a>
-        <a href="@Url.Action("MyTasks", "Assignee")">My Tasks</a>
-        <a href="@Url.Action("RecentTasks", "Assignee")">Recent Tasks</a>
-        <a href="@Url.Action("Logout", "Auth")">Logout</a>
+        <a href="@Url.Action("Dashboard", "Assignee")" class="active"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="@Url.Action("MyTasks", "Assignee")"><i class="fas fa-tasks"></i> My Tasks</a>
+        <a href="@Url.Action("RecentTasks", "Assignee")"><i class="fas fa-clock"></i> Recent Tasks</a>
+        <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
     <div class="main-content">
+        <!-- Topbar -->
         <div class="topbar">
-            <span class="username">Welcome, @ViewBag.Username</span>
-            <label class="switch">
+            <span class="username">Welcome, @ViewBag.username</span>
+            <label class="switch theme-switch">
                 <input type="checkbox" id="theme-toggle">
-                <span class="slider"></span>
+                <span class="slider"><span class="icon" id="theme-icon"></span></span>
             </label>
         </div>
 
-        <div class="stats">
-            <div class="card">
-                <h3>Total Assigned</h3>
-                <p>@ViewBag.TotalTasks</p>
-            </div>
-            <div class="card">
-                <h3>Pending</h3>
-                <p>@ViewBag.Pending</p>
-            </div>
-            <div class="card">
-                <h3>In Progress</h3>
-                <p>@ViewBag.InProgress</p>
-            </div>
-            <div class="card">
-                <h3>Resolved</h3>
-                <p>@ViewBag.Completed</p>
-            </div>
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-card"><canvas id="chart1"></canvas></div>
+            <div class="chart-card"><canvas id="chart2"></canvas></div>
+            <div class="chart-card"><canvas id="chart3"></canvas></div>
+            <div class="chart-card"><canvas id="chart4"></canvas></div>
         </div>
-
-
 
         <h2>Assigned Requests</h2>
         <div class="export-buttons">
@@ -51,40 +55,112 @@
             <button onclick="exportToExcel()">Export to Excel</button>
         </div>
 
-        <table id="requests-table">
-            <thead>
-                <tr>
-                    <th onclick="sortTable(0)">Request ID</th>
-                    <th onclick="sortTable(1)">Title</th>
-                    <th onclick="sortTable(2)">Status</th>
-                    <th onclick="sortTable(3)">Description</th>
-                    <th onclick="sortTable(4)">Submitted By</th>
-                    <th onclick="sortTable(5)">Facility</th>
-                    <th onclick="sortTable(6)">Created At</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var req in Model)
-                {
+        <div class="responsive-table">
+            <table id="requests-table">
+                <thead>
                     <tr>
-                        <td>@req.RequestId</td>
-                        <td>@req.Title</td>
-                        <td>@req.Status</td>
-                        <td>@req.Description</td>
-                        <td>@req.User?.FullName</td>
-                        <td>@req.Facility?.Name</td>
-                        <td>@req.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")</td>
+                        <th onclick="sortTable(0)">Request ID</th>
+                        <th onclick="sortTable(1)">Title</th>
+                        <th onclick="sortTable(2)">Status</th>
+                        <th onclick="sortTable(3)">Description</th>
+                        <th onclick="sortTable(4)">Submitted By</th>
+                        <th onclick="sortTable(5)">Facility</th>
+                        <th onclick="sortTable(6)">Created At</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-
-
+                </thead>
+                <tbody>
+                    @foreach (var req in Model)
+                    {
+                        <tr>
+                            <td>REQ-@req.RequestId</td>
+                            <td>@req.Title</td>
+                            <td>@req.Status</td>
+                            <td>@req.Description</td>
+                            <td>@req.User?.FullName</td>
+                            <td>@req.Facility?.Name</td>
+                            <td>@req.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 
-
     <script src="~/Admin/script.js"></script>
+
+    <script>
+        const lightMode = window.matchMedia('(prefers-color-scheme: light)').matches;
+        const gridColor = lightMode ? '#ccc' : '#555';
+        const textColor = lightMode ? '#333' : '#eee';
+
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: textColor } }
+            },
+            scales: {
+                x: { ticks: { color: textColor }, grid: { color: gridColor } },
+                y: { ticks: { color: textColor }, grid: { color: gridColor } }
+            }
+        };
+
+        new Chart(document.getElementById('chart1'), {
+            type: 'bar',
+            data: {
+                labels: ['Total', 'Pending'],
+                datasets: [{
+                    label: 'Tasks',
+                    data: [@ViewBag.TotalTasks, @ViewBag.Pending],
+                    backgroundColor: ['#3498db', '#e67e22']
+                }]
+            },
+            options: commonOptions
+        });
+
+        new Chart(document.getElementById('chart2'), {
+            type: 'bar',
+            data: {
+                labels: ['In Progress', 'Resolved'],
+                datasets: [{
+                    label: 'Tasks',
+                    data: [@ViewBag.InProgress, @ViewBag.Completed],
+                    backgroundColor: ['#f1c40f', '#2ecc71']
+                }]
+            },
+            options: commonOptions
+        });
+
+        new Chart(document.getElementById('chart3'), {
+            type: 'line',
+            data: {
+                labels: ['W1', 'W2', 'W3', 'W4'],
+                datasets: [{
+                    label: 'Resolved Over Time (Dummy)',
+                    data: [1, 2, 5, 7],
+                    borderColor: '#1abc9c',
+                    fill: false
+                }]
+            },
+            options: commonOptions
+        });
+
+        new Chart(document.getElementById('chart4'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Pending', 'In Progress', 'Resolved'],
+                datasets: [{
+                    data: [@ViewBag.Pending, @ViewBag.InProgress, @ViewBag.Completed],
+                    backgroundColor: ['#e67e22', '#f1c40f', '#2ecc71']
+                }]
+            },
+            options: {
+                ...commonOptions,
+                plugins: { ...commonOptions.plugins, legend: { position: 'bottom', labels: { color: textColor } } }
+            }
+        });
+    </script>
+
 </body>
 </html>
-
 

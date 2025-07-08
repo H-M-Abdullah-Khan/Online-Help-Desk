@@ -35,14 +35,28 @@
                 background-color: #0056b3;
             }
     </style>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="sidenav">
-        <h2>Facility Head Panel</h2>
-        <a href="@Url.Action("Dashboard", "FacilityHead")">Dashboard</a>
-        <a href="@Url.Action("AssignRequests", "FacilityHead")" class="active">Assign Requests</a>
-        <a href="@Url.Action("Logout", "Auth")">Logout</a>
+    <!-- Mobile Toggle Button -->
+    <button class="mobile-toggle" onclick="openNav()">☰</button>
+
+    <!-- Slide-in Sidepanel for Mobile -->
+    <div id="mySidepanel" class="sidepanel">
+        <span class="closebtn" onclick="closeNav()">×</span>
+        <a href="@Url.Action("Dashboard", "FacilityHead")"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="@Url.Action("AssignRequests", "FacilityHead")"><i class="fas fa-user-plus"></i> Assign Requests</a>
+        <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
+
+    <!-- Permanent Sidebar for Desktop -->
+    <div class="sidenav">
+        <h2>Facility Head</h2>
+        <a href="@Url.Action("Dashboard", "FacilityHead")"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="@Url.Action("AssignRequests", "FacilityHead")" class="active"><i class="fas fa-user-plus"></i> Assign Requests</a>
+        <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
 
     <div class="main-content">
         <div class="topbar">
@@ -73,6 +87,7 @@
             <button onclick="exportToExcel()">Export to Excel</button>
         </div>
 
+        <div class="responsive-table">
         <table id="requests-table">
             <thead>
                 <tr>
@@ -112,9 +127,8 @@
                     </tr>
                 }
             </tbody>
-
         </table>
-
+        </div>
     </div>
 
 
