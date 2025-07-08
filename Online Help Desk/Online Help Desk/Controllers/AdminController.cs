@@ -93,8 +93,7 @@ namespace Online_Help_Desk.Controllers
         [HttpPost]
         public IActionResult AddFacility(Facility facility)
         {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Auth");
+            if (!IsAdmin()) return RedirectToAction("Login", "Auth");
 
             if (ModelState.IsValid && !string.IsNullOrWhiteSpace(facility.Name))
             {
@@ -179,6 +178,48 @@ namespace Online_Help_Desk.Controllers
             return RedirectToAction("Approvals");
 
         }
+        // GET: /Admin/Profile
+        public IActionResult Profile()
+        {
+            int uid = HttpContext.Session.GetInt32("UserId") ?? 0;
+            var user = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            if (user == null) return RedirectToAction("Login", "Auth");
+            return View(user);
+        }
+
+        // POST: /Admin/UpdateProfile
+        [HttpPost]
+        public IActionResult UpdateProfile(User updatedUser)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserId == updatedUser.UserId);
+            if (user != null)
+            {
+                user.FullName = updatedUser.FullName;
+                user.Email = updatedUser.Email;
+                user.Username = updatedUser.Username;
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Profile updated successfully!";
+            }
+            return RedirectToAction("Profile");
+        }
+
+        // POST: /Admin/ChangePassword
+        [HttpPost]
+        public IActionResult ChangePassword(int userId, string currentPassword, string newPassword)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+            if (user == null || user.PasswordHash != currentPassword)
+            {
+                TempData["ErrorMessage"] = "Current password is incorrect.";
+                return RedirectToAction("Profile");
+            }
+
+            user.PasswordHash = newPassword;
+            _context.SaveChanges();
+            TempData["SuccessMessage"] = "Password changed successfully!";
+            return RedirectToAction("Profile");
+        }
+
     }
 }
 

@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/Admin/style.css" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Responsive Form Styling -->
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: var(--card-bg, #fff);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 6px;
+                color: var(--text-color, #333);
+            }
+
+            .form-group input,
+            .form-group textarea {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid var(--border-color, #ccc);
+                border-radius: 5px;
+                background: var(--card-bg, #fff);
+                color: var(--text-color, #333);
+                margin-left: -10px;
+            }
+
+        .submit-btn {
+            background-color: var(--primary-color, #3498db);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+            .submit-btn:hover {
+                background-color: var(--secondary-color, #2980b9);
+            }
+    </style>
+
+</head>
+<body>
+
+    <!-- Mobile Toggle Button -->
+    <button class="mobile-toggle" onclick="openNav()">☰</button>
+
+    <!-- Slide-in Sidepanel for Mobile -->
+    <div id="mySidepanel" class="sidepanel">
+        <span class="closebtn" onclick="closeNav()">×</span>
+        <a href="@Url.Action("Dashboard", "Assignee")"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="@Url.Action("MyTasks", "Assignee")"><i class="fas fa-tasks"></i> My Tasks</a>
+        <a href="@Url.Action("RecentTasks", "Assignee")"><i class="fas fa-clock"></i> Recent Tasks</a>
+        <a href="@Url.Action("Profile", "Assignee")"><i class="fas fa-user-cog"></i> Profile</a>
+        <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Permanent Sidebar for Desktop -->
+    <div class="sidenav">
+        <h2>Assignee Panel</h2>
+        <a href="@Url.Action("Dashboard", "Assignee")"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="@Url.Action("MyTasks", "Assignee")"><i class="fas fa-tasks"></i> My Tasks</a>
+        <a href="@Url.Action("RecentTasks", "Assignee")"><i class="fas fa-clock"></i> Recent Tasks</a>
+        <a href="@Url.Action("Profile", "Assignee")" class="active"><i class="fas fa-user-cog"></i> Profile</a>
+        <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="topbar">
+            <span class="username">Welcome, Admin</span>
+            <label class="switch theme-switch">
+                <input type="checkbox" id="theme-toggle">s
+                <span class="slider">
+                    <span class="icon" id="theme-icon"></span>
+                </span>
+            </label>
+        </div>
+
+        <h2 style="text-align: center;">Edit Profile</h2>
+
+        <form method="post" asp-action="UpdateProfile" asp-controller="Admin" class="form-container">
+            <input type="hidden" name="UserId" value="@Model.UserId" />
+
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="FullName" value="@Model.FullName" required />
+            </div>
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="Username" value="@Model.Username" required />
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="Email" value="@Model.Email" required />
+            </div>
+
+            <button type="submit" class="submit-btn">Update Profile</button>
+        </form>
+
+        <h2 style="text-align: center;">Change Password</h2>
+        <form method="post" asp-action="ChangePassword" asp-controller="Admin" class="form-container">
+            <input type="hidden" name="userId" value="@Model.UserId" />
+
+            <div class="form-group">
+                <label>Current Password</label>
+                <input type="password" name="currentPassword" required />
+            </div>
+
+            <div class="form-group">
+                <label>New Password</label>
+                <input type="password" name="newPassword" required />
+            </div>
+
+            <button type="submit" class="submit-btn">Change Password</button>
+        </form>
+    </div>
+
+    <script src="~/Admin/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const success = '@TempData["SuccessMessage"]';
+            const error = '@TempData["ErrorMessage"]';
+
+            if (success && success !== '') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: success,
+                    confirmButtonColor: '#3085d6'
+                });
+            } else if (error && error !== '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops!',
+                    text: error,
+                    confirmButtonColor: '#d33'
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
+

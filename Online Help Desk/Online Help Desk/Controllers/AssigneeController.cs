@@ -120,6 +120,60 @@ namespace Online_Help_Desk.Controllers
 
             return View(recentTasks);
         }
+        // ✅ GET: /Assignee/Profile
+        public IActionResult Profile()
+        {
+            int uid = HttpContext.Session.GetInt32("UserId") ?? 0;
+            var user = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            if (user == null) return RedirectToAction("Login", "Auth");
 
+            return View(user);
+        }
+
+        // ✅ POST: /Assignee/UpdateProfile
+        [HttpPost]
+        public IActionResult UpdateProfile(User updatedUser)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserId == updatedUser.UserId);
+            if (user != null)
+            {
+                user.FullName = updatedUser.FullName;
+                user.Username = updatedUser.Username;
+                user.Email = updatedUser.Email;
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Profile updated successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "User not found!";
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+        // ✅ POST: /Assignee/ChangePassword
+        [HttpPost]
+        public IActionResult ChangePassword(int userId, string currentPassword, string newPassword)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "User not found!";
+                return RedirectToAction("Profile");
+            }
+
+            if (user.PasswordHash != currentPassword) // ❗ In production, always use hashed password check
+            {
+                TempData["ErrorMessage"] = "Current password is incorrect.";
+                return RedirectToAction("Profile");
+            }
+
+            user.PasswordHash = newPassword;
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = "Password changed successfully!";
+            return RedirectToAction("Profile");
+        }
     }
+
 }
