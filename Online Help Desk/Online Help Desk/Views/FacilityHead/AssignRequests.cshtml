@@ -46,6 +46,7 @@
         <span class="closebtn" onclick="closeNav()">×</span>
         <a href="@Url.Action("Dashboard", "FacilityHead")"><i class="fas fa-home"></i> Dashboard</a>
         <a href="@Url.Action("AssignRequests", "FacilityHead")"><i class="fas fa-user-plus"></i> Assign Requests</a>
+        <a href="@Url.Action("Profile", "FacilityHead")"><i class="fas fa-user-cog"></i> Profile</a>
         <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
@@ -54,6 +55,7 @@
         <h2>Facility Head</h2>
         <a href="@Url.Action("Dashboard", "FacilityHead")"><i class="fas fa-home"></i> Dashboard</a>
         <a href="@Url.Action("AssignRequests", "FacilityHead")" class="active"><i class="fas fa-user-plus"></i> Assign Requests</a>
+        <a href="@Url.Action("Profile", "FacilityHead")"><i class="fas fa-user-cog"></i> Profile</a>
         <a href="@Url.Action("Logout", "Auth")"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
@@ -111,7 +113,7 @@
                         <td>@req.User?.FullName</td>
                         <td>@req.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")</td>
                         <td>
-                            <form asp-action="Assign" asp-controller="FacilityHead" method="post" style="display:inline;">
+                                <form method="post" action="@Url.Action("Assign", "FacilityHead")" style="display:inline;">
                                 <input type="hidden" name="id" value="@req.RequestId" />
                                 <select name="userId" required>
                                     <option value="">-- Select Assignee --</option>

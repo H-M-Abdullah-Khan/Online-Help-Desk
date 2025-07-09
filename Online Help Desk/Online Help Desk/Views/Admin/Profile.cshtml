@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model Online_Help_Desk.Models.User
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8" />
@@ -103,7 +104,7 @@
 
         <h2 style="text-align: center;">Edit Profile</h2>
 
-        <form method="post" asp-action="UpdateProfile" asp-controller="Admin" class="form-container">
+        <form method="post" action="@Url.Action("UpdateProfile", "Admin")" class="form-container">
             <input type="hidden" name="UserId" value="@Model.UserId" />
 
             <div class="form-group">
@@ -125,7 +126,7 @@
         </form>
 
         <h2 style="text-align: center;">Change Password</h2>
-        <form method="post" asp-action="ChangePassword" asp-controller="Admin" class="form-container">
+        <form method="post" action="@Url.Action("ChangePassword", "Admin")" class="form-container">
             <input type="hidden" name="userId" value="@Model.UserId" />
 
             <div class="form-group">

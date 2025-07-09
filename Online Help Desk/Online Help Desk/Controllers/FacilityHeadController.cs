@@ -19,7 +19,7 @@ namespace Online_Help_Desk.Controllers
             return HttpContext.Session.GetInt32("UserId") ?? 0;
         }
 
-        // 📊 Dashboard (secure)
+        //  Dashboard (secure)
         public IActionResult Dashboard()
         {
             if (!IsFacilityHead()) return RedirectToAction("Login", "Auth");
@@ -27,10 +27,10 @@ namespace Online_Help_Desk.Controllers
             int uid = GetUserId();
             var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
             ViewBag.Username = currentUser?.FullName ?? "Facility Head";
+
             var assignedRequests = _context.Requests
                 .Include(r => r.User)
                 .Include(r => r.Facility)
-                .Where(r => r.AssignedToUserId == uid)
                 .OrderByDescending(r => r.CreatedAt)
                 .ToList();
 
@@ -42,7 +42,8 @@ namespace Online_Help_Desk.Controllers
             return View(assignedRequests);
         }
 
-        // 🧾 Show Pending Requests to Assign
+
+        // Show Pending Requests to Assign
         public IActionResult AssignRequests()
         {
             if (!IsFacilityHead()) return RedirectToAction("Login", "Auth");
@@ -65,7 +66,7 @@ namespace Online_Help_Desk.Controllers
             return View(pendingRequests);
         }
 
-        // ✅ Assign to Assignee
+        // Assign to Assignee
         [HttpPost]
         public IActionResult Assign(int id, int userId)
         {
@@ -85,6 +86,56 @@ namespace Online_Help_Desk.Controllers
             }
             return RedirectToAction("AssignRequests");
         }
+
+        public IActionResult Profile()
+        {
+            int uid = HttpContext.Session.GetInt32("UserId") ?? 0;
+            var user = _context.Users.FirstOrDefault(u => u.UserId == uid);
+            if (user == null) return RedirectToAction("Login", "Auth");
+            return View(user);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateProfile(User updatedUser)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserId == updatedUser.UserId);
+            if (user != null)
+            {
+                user.FullName = updatedUser.FullName;
+                user.Username = updatedUser.Username;
+                user.Email = updatedUser.Email;
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Profile updated successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "User not found!";
+            }
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost]
+        public IActionResult ChangePassword(int userId, string currentPassword, string newPassword)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "User not found!";
+                return RedirectToAction("Profile");
+            }
+
+            if (user.PasswordHash != currentPassword)
+            {
+                TempData["ErrorMessage"] = "Current password is incorrect.";
+                return RedirectToAction("Profile");
+            }
+
+            user.PasswordHash = newPassword;
+            _context.SaveChanges();
+            TempData["SuccessMessage"] = "Password changed successfully!";
+            return RedirectToAction("Profile");
+        }
+
 
     }
 }

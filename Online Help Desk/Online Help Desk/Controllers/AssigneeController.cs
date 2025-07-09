@@ -19,7 +19,7 @@ namespace Online_Help_Desk.Controllers
             return HttpContext.Session.GetInt32("UserId") ?? 0;
         }
 
-        // 📊 Dashboard for Assignee
+        // Dashboard for Assignee
         public IActionResult Dashboard()
         {
             if (!IsAssignee()) return RedirectToAction("Login", "Auth");
@@ -28,7 +28,11 @@ namespace Online_Help_Desk.Controllers
             var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
             ViewBag.Username = currentUser?.FullName ?? "Assignee";
 
-            var assigned = _context.Requests.Where(r => r.AssignedToUserId == uid);
+            //var assigned = _context.Requests.Where(r => r.AssignedToUserId == uid);
+            var assigned = _context.Requests
+            .Include(r => r.User)
+            .Include(r => r.Facility)
+            .Where(r => r.AssignedToUserId == uid);
 
             ViewBag.TotalTasks = assigned.Count();
             ViewBag.InProgress = assigned.Count(r => r.Status == RequestStatus.InProgress);
@@ -120,17 +124,16 @@ namespace Online_Help_Desk.Controllers
 
             return View(recentTasks);
         }
-        // ✅ GET: /Assignee/Profile
+
+        // GET: /Assignee/Profile
         public IActionResult Profile()
         {
             int uid = HttpContext.Session.GetInt32("UserId") ?? 0;
             var user = _context.Users.FirstOrDefault(u => u.UserId == uid);
             if (user == null) return RedirectToAction("Login", "Auth");
-
             return View(user);
         }
 
-        // ✅ POST: /Assignee/UpdateProfile
         [HttpPost]
         public IActionResult UpdateProfile(User updatedUser)
         {
@@ -147,11 +150,10 @@ namespace Online_Help_Desk.Controllers
             {
                 TempData["ErrorMessage"] = "User not found!";
             }
-
             return RedirectToAction("Profile");
         }
 
-        // ✅ POST: /Assignee/ChangePassword
+        // POST: /Assignee/ChangePassword
         [HttpPost]
         public IActionResult ChangePassword(int userId, string currentPassword, string newPassword)
         {
