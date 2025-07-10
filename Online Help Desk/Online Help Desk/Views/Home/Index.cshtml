@@ -1,0 +1,549 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OHD System - Online Help Desk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="~/Home/style.css">
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <header class="gradient-bg text-white py-6">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                    </svg>
+                    <span class="text-xl font-bold">OHD System</span>
+                </div>
+
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#" class="hover:text-gray-200 font-medium">Home</a>
+                    <a href="#features" class="hover:text-gray-200 font-medium">Features</a>
+                    <a href="#faq" class="hover:text-gray-200 font-medium">Help</a>
+                    <a href="#contact" class="hover:text-gray-200 font-medium">Contact</a>
+                    <a href="@Url.Action("Login", "Auth")" class="hover:text-gray-200 font-medium">Login</a>
+                    <a href="@Url.Action("Register", "Auth")" class="hover:text-gray-200 font-medium">Resgister</a>
+                </nav>
+
+                <button class="md:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-16 gradient-bg text-white">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">Optimized Help Desk System</h1>
+                <p class="text-lg mb-8 text-gray-200">The OHD System revolutionizes customer support with efficient ticket management, real-time communication, and comprehensive analytics to streamline your help desk operations.</p>
+
+                <div class="flex flex-wrap gap-3">
+                    <a href="#login" class="bg-white text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition duration-300 shadow-lg">Get Started</a>
+                    <a href="#features" class="border-2 border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-indigo-600 transition duration-300">Learn More</a>
+                </div>
+            </div>
+
+            <div class="md:w-1/2 flex justify-center">
+                <div class="relative w-full max-w-md">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4221dcb0-8f6e-49f1-8e00-5ffd57cbf148.png" alt="Help desk dashboard interface showing ticket management system with graphs and support metrics" class="rounded-xl shadow-2xl">
+                    <div class="absolute -bottom-4 -right-4 bg-white p-4 rounded-lg shadow-lg hidden md:block">
+                        <div class="flex items-center">
+                            <div class="bg-green-100 p-2 rounded-full mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-700">24/7 Support</p>
+                                <p class="text-xs text-gray-500">Instant response</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Powerful Features</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">OHD System provides everything you need for efficient help desk management.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-lg border border-gray-100 hover:shadow-lg transition duration-300">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Ticket Management</h3>
+                    <p class="text-gray-600">Efficiently organize, prioritize and track all customer support tickets in one centralized location.</p>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-lg border border-gray-100 hover:shadow-lg transition duration-300">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Instant Notifications</h3>
+                    <p class="text-gray-600">Real-time alerts for new tickets, assigned tasks, and important updates to keep your team informed.</p>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-lg border border-gray-100 hover:shadow-lg transition duration-300">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Analytics Dashboard</h3>
+                    <p class="text-gray-600">Comprehensive reporting tools to track performance metrics and identify areas for improvement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">How to Use – Quick User Guide</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">Professional and clear User Guide section with three structured paragraphs</p>
+            </div>
+    <div class="cards">
+        <div class="card" data-index="0">
+            <div class="card__inner">
+                <div class="card__image-container">
+                    <img class="card__image"
+                             src="~/Home/User.png"
+                         alt="" />
+                </div>
+                <div class="card__content">
+                    <h1 class="card__title">For End Users</h1>
+                    <p class="card__description">
+                            As an end user, once you log in, your main goal is to submit facility-related complaints such as broken lights, internet issues, or AC faults. Simply go to the "New Request" section, fill in your issue details, select the appropriate facility (e.g., IT Lab, Auditorium), and submit. You can then visit the "Track Requests" page to monitor the real-time progress of your complaint — from Pending to Assigned, In Progress, and finally Closed. You’ll also see who’s working on it and when it was last updated.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="card" data-index="0">
+            <div class="card__inner">
+                <div class="card__image-container">
+                    <img class="card__image"
+                             src="~/Home/facilitiesmanager.jpg"
+                         alt="" />
+                </div>
+                <div class="card__content">
+                    <h1 class="card__title">For Facility Heads</h1>
+                    <p class="card__description">
+                            Facility Heads are responsible for overseeing all complaints submitted under their assigned facilities. Upon logging in, they can access the "Assign Requests" page, which lists pending complaints. They can then review the details and assign them to appropriate Assignees. The dashboard displays stats like total assigned, pending, and resolved requests. Facility Heads also have visibility into request statuses across all categories (not just pending), giving them full control to ensure timely resolution and team accountability.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="card" data-index="0">
+            <div class="card__inner">
+                <div class="card__image-container">
+                    <img class="card__image"
+                         src="~/Home/assignee.jpg"
+                         alt="" />
+                </div>
+                <div class="card__content">
+                        <h1 class="card__title">For Assignees</h1>
+                    <p class="card__description">
+                            Assignees are the technical personnel who resolve complaints. Once logged in, Assignees are shown their total assigned tasks, including those pending, in progress, or completed. From the "My Tasks" section, they can view detailed descriptions of each request and update the task status accordingly — for example, from "Assigned" to "In Progress" and finally to "Closed" once resolved. This ensures clear communication between all parties and keeps the help desk workflow efficient and transparent.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">Find answers to common questions about the OHD System</p>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <div class="accordion-group space-y-4">
+                    <!-- Question 1 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left">Q1: What is the Online Help Desk (OHD) system?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">The OHD is a centralized platform where users can submit, track, and manage facility-related complaints or requests (e.g., maintenance, IT support, repairs). The system streamlines communication between users, facility heads, and assignees.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q2: Who can use the system and what are the roles?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">
+                                Admin: Manages users, facilities, and approvals.<br>
+                                End User: Submits and tracks help desk requests.<br>
+                                Facility Head: Reviews and assigns requests to assignees.<br>
+                                Assignee: Resolves assigned tasks and updates their statuses.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q3: How do I submit a new request?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">After logging in as a User, navigate to the “New Request” page, fill in the issue title and description, select your facility, and click Submit.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question 4 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q4: How can I check the status of my submitted request?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">Go to “Track Requests”. You will see all your recent submissions along with their statuses: Pending, Assigned, In Progress, Closed.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question 5 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q5: What happens after I submit a request?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">The Facility Head of your selected facility will review your request and assign it to an appropriate Assignee. The Assignee will then work on resolving the issue and updating its progress.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question 6 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q6: Can I cancel or delete a submitted request?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">No, users cannot delete requests. However, they can track them. If a mistake is made, contact the Admin to request changes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question 7 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q7: How do I update my profile or change password?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">Click on “Profile” in the side navigation. You can edit your name, username, email, and also change your password securely.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question 8 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q8: I forgot my password. What should I do?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">There is currently no “Forgot Password” feature. Please contact the Admin for manual reset or login recovery.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question 9 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q9: How are requests prioritized?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">Requests are assigned based on the availability of assignees and urgency. The Facility Head oversees proper routing and may adjust priorities.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question 10 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q10: How do I know when my issue is resolved?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">Once an assignee marks the task as Resolved, it will reflect in your tracking dashboard. You’ll also be able to see who resolved it and when.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question 11 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q11: How do Facility Heads manage requests?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">Facility Heads can view all submitted requests under their facility (regardless of status), assign them to assignees, and monitor progress.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question 12 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q12: What types of issues should be reported?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">Any facility-related problems like broken equipment, network issues, IT malfunctions, power failures, cleaning complaints, etc., can be reported.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question 13 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q13: Is there a history of resolved issues?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">Yes. Users, Facility Heads, and Assignees can all access records of past requests, their statuses, assigned personnel, and timestamps.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question 14 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q14: How secure is my data?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">Each user logs in with credentials. Only assigned roles can access their allowed actions. Sensitive actions like password change or assignments are protected.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question 15 -->
+                    <div class="accordion border rounded-lg overflow-hidden">
+                        <button class="accordion-btn w-full flex justify-between items-center p-6 focus:outline-none bg-gray-50">
+                            <span class="text-lg font-medium text-left"> Q15: What browsers or devices are supported?</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-6">
+                            <p class="text-gray-600">The system is fully responsive and works on all modern browsers (Chrome, Edge, Firefox) and devices (desktop, tablet, mobile).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Help Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm p-8">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-8 md:mb-0">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2ffeae3d-39b3-41b8-b982-1dd7eed7207c.png" alt="Customer support representative assisting a client through video call in a modern office setting" class="rounded-lg shadow-md">
+                    </div>
+                    <div class="md:w-1/2 md:pl-8">
+                        <h2 class="text-2xl font-bold mb-4">Need more help?</h2>
+                        <p class="text-gray-600 mb-6">Our support team is available 24/7 to assist you with any questions or issues you may encounter with the OHD System.</p>
+
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">Phone Support</p>
+                                    <p class="text-sm text-gray-500">+1 (555) 123-4567</p>
+                                    <p class="text-sm text-gray-500">Monday - Friday, 8am - 8pm EST</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">Email Support</p>
+                                    <p class="text-sm text-gray-500">support@ohdsystem.com</p>
+                                    <p class="text-sm text-gray-500">Response within 4 business hours</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">Live Chat</p>
+                                    <p class="text-sm text-gray-500">Available after login via the help widget</p>
+                                    <p class="text-sm text-gray-500">24/7 for critical issues</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                        </svg>
+                        <span class="text-xl font-bold">OHD System</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">The complete solution for modern help desk operations, providing efficient customer support management.</p>
+                    <p class="text-gray-400 text-sm">© 2023 OHD System. All rights reserved.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition duration-300">Features</a></li>
+                        <li><a href="@Url.Action("Login", "Auth")" class="text-gray-400 hover:text-white transition duration-300">Login</a></li>
+                        <li><a href="#faq" class="text-gray-400 hover:text-white transition duration-300">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span>123 Home, Street Town, Region</span>
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            <span>+0 (000) 000-0000</span>
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            <span>info@ohdsystem.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Accordion functionality
+        document.querySelectorAll('.accordion-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const accordion = button.closest('.accordion');
+                accordion.classList.toggle('active');
+
+                const icon = button.querySelector('svg');
+                if (accordion.classList.contains('active')) {
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+
+        // cards
+        const { ScrollObserver, valueAtPercentage } = aat
+        const cardsContainer = document.querySelector('.cards')
+        const cards = document.querySelectorAll('.card')
+        cardsContainer.style.setProperty('--cards-count', cards.length)
+        cardsContainer.style.setProperty(
+          '--card-height',
+          `${cards[0].clientHeight}px`
+        )
+        Array.from(cards).forEach((card, index) => {
+          const offsetTop = 20 + index * 20
+          card.style.paddingTop = `${offsetTop}px`
+          if (index === cards.length - 1) {
+            return
+          }
+          const toScale = 1 - (cards.length - 1 - index) * 0.1
+          const nextCard = cards[index + 1]
+          const cardInner = card.querySelector('.card__inner')
+          ScrollObserver.Element(nextCard, {
+            offsetTop,
+            offsetBottom: window.innerHeight - card.clientHeight
+          }).onScroll(({ percentageY }) => {
+            cardInner.style.scale = valueAtPercentage({
+              from: 1,
+              to: toScale,
+              percentage: percentageY
+            })
+            cardInner.style.filter = `brightness(${valueAtPercentage({
+              from: 1,
+              to: 0.6,
+              percentage: percentageY
+            })})`
+          })
+        })
+    </script>
+</body>
+</html>
+
+
