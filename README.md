@@ -37,34 +37,99 @@ Whether you're a startup needing basic support tracking or an enterprise managin
 ## 📂 Project Structure
 
 
-Online-Help-Desk/
-├── backend/
-│   ├── controllers/
-│   ├── models/
-│   └── routes/
-├── frontend/
-│   ├── assets/
-│   ├── views/
-│   └── index.html
+<pre> Online-Help-Desk/ ├── backend/ │ ├── controllers/ │ ├── models/ │ └── routes/ ├── frontend/ │ ├── assets/ │ ├── views/ │ └── index.html ├── database/ │ └── schema.sql ├── .env ├── README.md └── LICENSE </pre>
 
 
 ---
 
-## 🛠️ Installation Guide
+Visual Studio
 
-### Prerequisites
+C# (.NET)
 
-- PHP ≥ 7.4 / Python ≥ 3.8
-- Composer or pip
-- MySQL
-- Git
+SQL Server Database
 
-### Steps
+I’ll provide the correct full setup instructions for your ASP.NET (MVC or Web API) project with SQL Server, targeting developers using Visual Studio.
 
-```bash
+🛠️ Installation Guide
+✅ Prerequisites
+Before you begin, ensure you have the following installed:
+
+Visual Studio 2022 or later with .NET desktop and web development workloads
+
+.NET SDK 6.0 or later
+
+SQL Server (Express, Developer, or full version)
+
+SQL Server Management Studio (SSMS) – for managing the database
+
+Git (optional, for cloning)
+
+📦 Steps to Set Up the Project
+1. Clone the repository
+bash
+Copy
+Edit
 git clone https://github.com/H-M-Abdullah-Khan/Online-Help-Desk.git
 cd Online-Help-Desk
-```
+Or download the ZIP from GitHub and extract it.
+
+2. Open the Project in Visual Studio
+Launch Visual Studio.
+
+Go to File > Open > Project/Solution.
+
+Select the .sln file (e.g., OnlineHelpDesk.sln) inside the repo folder.
+
+3. Configure the SQL Server Connection
+In appsettings.json (or app.config), find and update the connection string:
+
+json
+Copy
+Edit
+"ConnectionStrings": {
+  "DefaultConnection": "Server=YOUR_SERVER_NAME;Database=OnlineHelpDeskDB;Trusted_Connection=True;MultipleActiveResultSets=true"
+}
+Replace YOUR_SERVER_NAME with your actual SQL Server name (e.g., localhost\\SQLEXPRESS).
+
+You can also use SQL Server Authentication:
+
+json
+Copy
+Edit
+"DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=OnlineHelpDeskDB;User Id=your_user;Password=your_password;"
+4. Build the Project
+In Visual Studio, go to Build > Build Solution or press Ctrl+Shift+B.
+
+This ensures all dependencies are restored and compiled correctly.
+
+5. Apply Migrations & Create the Database
+If you’re using Entity Framework (EF Core):
+
+Open the Package Manager Console (Tools > NuGet Package Manager > Package Manager Console) and run:
+
+powershell
+Copy
+Edit
+Add-Migration InitialCreate
+Update-Database
+This will apply all EF Core migrations and create the database in SQL Server.
+
+If your database is already built manually via .sql script, execute schema.sql in SSMS to create necessary tables.
+
+6. Run the Application
+Press F5 or click Start Debugging in Visual Studio.
+
+This launches the application on https://localhost:PORT (e.g., https://localhost:5001).
+
+🚀 How to Use
+Register as a new user or log in with pre-defined admin credentials (check SeedData.cs if applicable).
+
+Create, track, and respond to tickets.
+
+Admins can view all tickets, assign them, and manage users/agents.
+
+
+
 ---
 
 ## 🚀 Usage Instructions
