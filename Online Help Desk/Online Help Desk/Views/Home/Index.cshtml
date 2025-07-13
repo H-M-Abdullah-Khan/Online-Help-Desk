@@ -20,12 +20,30 @@
                 </div>
 
                 <nav class="hidden md:flex space-x-6">
-                    <a href="#" class="hover:text-gray-200 font-medium">Home</a>
-                    <a href="#features" class="hover:text-gray-200 font-medium">Features</a>
-                    <a href="#faq" class="hover:text-gray-200 font-medium">Help</a>
-                    <a href="#contact" class="hover:text-gray-200 font-medium">Contact</a>
-                    <a href="@Url.Action("Login", "Auth")" class="hover:text-gray-200 font-medium">Login</a>
-                    <a href="@Url.Action("Register", "Auth")" class="hover:text-gray-200 font-medium">Resgister</a>
+                    <a href="#" class="hover:text-gray-200 relative group font-medium">
+                        Home
+                        <span class="absolute left-0 bottom-0 h-0.5 w-0 bg-gray-200 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#features" class="hover:text-gray-200 relative group font-medium">
+                        Features
+                        <span class="absolute left-0 bottom-0 h-0.5 w-0 bg-gray-200 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#faq" class="hover:text-gray-200 relative group font-medium">
+                        Help
+                        <span class="absolute left-0 bottom-0 h-0.5 w-0 bg-gray-200 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#contact" class="hover:text-gray-200 relative group font-medium">
+                        Contact
+                        <span class="absolute left-0 bottom-0 h-0.5 w-0 bg-gray-200 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="@Url.Action("Login", "Auth")" class="hover:text-yellow-300 relative group font-medium">
+                        Login
+                        <span class="absolute left-0 bottom-0 h-0.5 w-0 bg-yellow-300 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="@Url.Action("Register", "Auth")" class="hover:text-yellow-300 relative group font-medium">
+                        Register
+                        <span class="absolute left-0 bottom-0 h-0.5 w-0 bg-yellow-300 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
                 </nav>
 
                 <button class="md:hidden">
