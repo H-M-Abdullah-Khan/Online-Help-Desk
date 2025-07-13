@@ -246,7 +246,7 @@ Feel free to fork, modify, and contribute.
 
 Created by [Hafiz Muhammad Abdullah Khan](https://github.com/H-M-Abdullah-Khan)
 
-📧 Email: [info@ohdsystem.com](mailto\:info@ohdsystem.com)
+📧 Email: [m.abdullahkhan9990@gmail.com](mailto\:info@ohdsystem.com)
 
 For support or bug reports, open an issue on GitHub.
 
