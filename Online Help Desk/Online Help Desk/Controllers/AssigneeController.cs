@@ -9,11 +9,12 @@ namespace Online_Help_Desk.Controllers
         private readonly ApplicationDbContext _context;
         public AssigneeController(ApplicationDbContext context) => _context = context;
 
+        // Save Assignee Role
         private bool IsAssignee()
         {
             return HttpContext.Session.GetString("Role") == RoleEnum.Assignee.ToString();
         }
-
+        
         private int GetUserId()
         {
             return HttpContext.Session.GetInt32("UserId") ?? 0;
@@ -28,7 +29,6 @@ namespace Online_Help_Desk.Controllers
             var currentUser = _context.Users.FirstOrDefault(u => u.UserId == uid);
             ViewBag.Username = currentUser?.FullName ?? "Assignee";
 
-            //var assigned = _context.Requests.Where(r => r.AssignedToUserId == uid);
             var assigned = _context.Requests
             .Include(r => r.User)
             .Include(r => r.Facility)

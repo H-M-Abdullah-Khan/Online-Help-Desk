@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Online_Help_Desk.Models;
-using System.Security.Cryptography;
-using System.Text;
-using Microsoft.EntityFrameworkCore; // Required for Entity Framework Core operations
 
 namespace Online_Help_Desk.Controllers
 {
@@ -57,11 +54,11 @@ namespace Online_Help_Desk.Controllers
                 });
                 _context.SaveChanges();
 
-                ViewBag.PendingApproval = true; // ✅ SweetAlert trigger
-                return View(); // ✅ Stay on Register page
+                ViewBag.PendingApproval = true; // SweetAlert trigger
+                return View(); // Stay on Register page
             }
 
-            // ✅ Auto-login if active
+            // Auto-login if active
             HttpContext.Session.SetInt32("UserId", model.UserId);
             HttpContext.Session.SetString("Role", model.Role.ToString());
 

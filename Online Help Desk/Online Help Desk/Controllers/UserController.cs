@@ -23,7 +23,7 @@ namespace Online_Help_Desk.Controllers
             return HttpContext.Session.GetInt32("UserId") ?? 0;
         }
 
-        // 🧠 USER DASHBOARD
+        // USER DASHBOARD
         public IActionResult Dashboard()
         {
             if (!IsEndUser()) return RedirectToAction("Login", "Auth");
@@ -45,10 +45,10 @@ namespace Online_Help_Desk.Controllers
             ViewBag.ResolvedCount = userRequests.Count(r => r.Status == RequestStatus.Closed);
             ViewBag.PendingCount = userRequests.Count(r => r.Status != RequestStatus.Closed);
 
-            return View(userRequests); // Loop over @model in Dashboard.cshtml
+            return View(userRequests); 
         }
 
-        // 🧠 NEW REQUEST (GET)
+        //  NEW REQUEST (GET)
         public IActionResult NewRequest()
         {
             if (!IsEndUser()) return RedirectToAction("Login", "Auth");
@@ -57,11 +57,11 @@ namespace Online_Help_Desk.Controllers
             ViewBag.Username = currentUser?.FullName ?? "User";
 
 
-            ViewBag.Facilities = _context.Facilities.ToList(); // for dropdown
+            ViewBag.Facilities = _context.Facilities.ToList(); 
             return View();
         }
 
-        // 🧠 NEW REQUEST (POST)
+        // NEW REQUEST (POST)
         [HttpPost]
         public IActionResult NewRequest(Request model)
         {
@@ -84,7 +84,7 @@ namespace Online_Help_Desk.Controllers
             return RedirectToAction("TrackRequests");
         }
 
-        // 🧠 TRACK USER REQUESTS
+        // TRACK USER REQUESTS
         public IActionResult TrackRequests()
         {
             if (!IsEndUser()) return RedirectToAction("Login", "Auth");
@@ -107,7 +107,7 @@ namespace Online_Help_Desk.Controllers
         }
 
 
-        // 🧠 CLOSE OWN REQUEST
+        // CLOSE OWN REQUEST
         public IActionResult CloseRequest(int id)
         {
             if (!IsEndUser()) return RedirectToAction("Login", "Auth");
@@ -137,6 +137,8 @@ namespace Online_Help_Desk.Controllers
 
             return RedirectToAction("TrackRequests");
         }
+
+        // Profile 
         public IActionResult Profile()
         {
             int uid = HttpContext.Session.GetInt32("UserId") ?? 0;

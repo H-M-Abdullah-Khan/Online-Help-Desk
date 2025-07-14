@@ -19,7 +19,7 @@ namespace Online_Help_Desk.Controllers
             return HttpContext.Session.GetInt32("UserId") ?? 0;
         }
 
-        //  Dashboard (secure)
+        //  Dashboard
         public IActionResult Dashboard()
         {
             if (!IsFacilityHead()) return RedirectToAction("Login", "Auth");

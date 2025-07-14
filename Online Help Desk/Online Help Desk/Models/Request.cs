@@ -1,6 +1,4 @@
-﻿using Online_Help_Desk.Models;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Online_Help_Desk.Models
 {

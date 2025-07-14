@@ -12,12 +12,12 @@ namespace Online_Help_Desk.Controllers
         {
             _context = context;
         }
-
+        // Save Admin Role
         private bool IsAdmin()
         {
             return HttpContext.Session.GetString("Role") == RoleEnum.Admin.ToString();
         }
-
+        // Dashboard
         public IActionResult Dashboard()
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Auth");
@@ -38,7 +38,7 @@ namespace Online_Help_Desk.Controllers
 
             return View();
         }
-
+        // ManageUsers
         public IActionResult ManageUsers()
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Auth");
@@ -50,7 +50,7 @@ namespace Online_Help_Desk.Controllers
 
             return View(_context.Users.ToList());
         }
-
+        // ManageRequests
         public IActionResult ManageRequests()
         {
             var requests = _context.Requests
@@ -67,7 +67,7 @@ namespace Online_Help_Desk.Controllers
             return View(requests);
         }
 
-
+        // ManageFacilities
         public IActionResult ManageFacilities()
         {
             if (!IsAdmin())
@@ -90,6 +90,8 @@ namespace Online_Help_Desk.Controllers
             return View(_context.Facilities.ToList());
         }
 
+        // AddFacility (Post)
+
         [HttpPost]
         public IActionResult AddFacility(Facility facility)
         {
@@ -109,7 +111,7 @@ namespace Online_Help_Desk.Controllers
             return RedirectToAction("ManageFacilities");
         }
 
-
+        // ManageFacilityHead
         public IActionResult ManageFacilityHead()
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Auth");
@@ -122,6 +124,7 @@ namespace Online_Help_Desk.Controllers
             return View(_context.Users.Where(u => u.Role == RoleEnum.FacilityHead).ToList());
         }
 
+        // Approvals
         public IActionResult Approvals()
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Auth");
@@ -138,7 +141,6 @@ namespace Online_Help_Desk.Controllers
 
             return View(pending);
         }
-
 
         public IActionResult Approve(int id)
         {
@@ -178,7 +180,7 @@ namespace Online_Help_Desk.Controllers
             return RedirectToAction("Approvals");
 
         }
-        // GET: /Admin/Profile
+        // GET: Profile
         public IActionResult Profile()
         {
             int uid = HttpContext.Session.GetInt32("UserId") ?? 0;
@@ -187,7 +189,7 @@ namespace Online_Help_Desk.Controllers
             return View(user);
         }
 
-        // POST: /Admin/UpdateProfile
+        // POST: UpdateProfile
         [HttpPost]
         public IActionResult UpdateProfile(User updatedUser)
         {
@@ -203,7 +205,7 @@ namespace Online_Help_Desk.Controllers
             return RedirectToAction("Profile");
         }
 
-        // POST: /Admin/ChangePassword
+        // POST: ChangePassword
         [HttpPost]
         public IActionResult ChangePassword(int userId, string currentPassword, string newPassword)
         {
