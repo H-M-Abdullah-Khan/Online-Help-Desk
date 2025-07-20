@@ -10,6 +10,8 @@ namespace Online_Help_Desk.Controllers
 
         public IActionResult Login() => View();
 
+        // Login
+
         [HttpPost]
         public IActionResult Login(string uemail, string upassword)
         {
@@ -32,7 +34,7 @@ namespace Online_Help_Desk.Controllers
             ViewBag.Error = "Invalid credentials or not approved.";
             return View();
         }
-
+        // Register
         public IActionResult Register() => View();
 
         [HttpPost]

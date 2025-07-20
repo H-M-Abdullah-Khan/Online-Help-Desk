@@ -142,6 +142,7 @@ namespace Online_Help_Desk.Controllers
             return View(pending);
         }
 
+        // Approve
         public IActionResult Approve(int id)
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Auth");
@@ -163,6 +164,7 @@ namespace Online_Help_Desk.Controllers
 
         }
 
+        // Reject
         public IActionResult Reject(int id)
         { 
             if (!IsAdmin()) return RedirectToAction("Login", "Auth");

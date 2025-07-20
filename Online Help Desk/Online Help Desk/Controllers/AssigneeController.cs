@@ -43,7 +43,7 @@ namespace Online_Help_Desk.Controllers
         }
 
 
-        // 📋 View My Assigned Tasks
+        // View My Assigned Tasks
         public IActionResult MyTasks()
         {
             if (!IsAssignee()) return RedirectToAction("Login", "Auth");
@@ -67,7 +67,7 @@ namespace Online_Help_Desk.Controllers
         }
 
 
-        // 🛠️ GET Update Form
+        // GET Update Form
         public IActionResult UpdateRequest(int id)
         {
             if (!IsAssignee()) return RedirectToAction("Login", "Auth");
@@ -76,7 +76,7 @@ namespace Online_Help_Desk.Controllers
             return req == null ? NotFound() : View(req);
         }
 
-        // 🛠️ POST Update Request
+        // POST Update Request
         [HttpPost]
         public IActionResult UpdateStatus(int requestId, RequestStatus status)
         {
@@ -101,6 +101,7 @@ namespace Online_Help_Desk.Controllers
 
             return RedirectToAction("MyTasks");
         }
+        // RecentTasks
         public IActionResult RecentTasks()
         {
             if (!IsAssignee()) return RedirectToAction("Login", "Auth");
@@ -125,7 +126,7 @@ namespace Online_Help_Desk.Controllers
             return View(recentTasks);
         }
 
-        // GET: /Assignee/Profile
+        // GET: Profile
         public IActionResult Profile()
         {
             int uid = HttpContext.Session.GetInt32("UserId") ?? 0;
@@ -153,7 +154,7 @@ namespace Online_Help_Desk.Controllers
             return RedirectToAction("Profile");
         }
 
-        // POST: /Assignee/ChangePassword
+        // POST: ChangePassword
         [HttpPost]
         public IActionResult ChangePassword(int userId, string currentPassword, string newPassword)
         {

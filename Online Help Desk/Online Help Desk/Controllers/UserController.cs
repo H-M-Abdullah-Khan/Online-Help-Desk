@@ -48,7 +48,7 @@ namespace Online_Help_Desk.Controllers
             return View(userRequests); 
         }
 
-        //  NEW REQUEST (GET)
+        // GET: NEW REQUEST 
         public IActionResult NewRequest()
         {
             if (!IsEndUser()) return RedirectToAction("Login", "Auth");
@@ -61,7 +61,7 @@ namespace Online_Help_Desk.Controllers
             return View();
         }
 
-        // NEW REQUEST (POST)
+        // POST: NEW REQUEST 
         [HttpPost]
         public IActionResult NewRequest(Request model)
         {
@@ -138,7 +138,7 @@ namespace Online_Help_Desk.Controllers
             return RedirectToAction("TrackRequests");
         }
 
-        // Profile 
+        // GET: Profile
         public IActionResult Profile()
         {
             int uid = HttpContext.Session.GetInt32("UserId") ?? 0;
@@ -147,6 +147,8 @@ namespace Online_Help_Desk.Controllers
             return View(user);
         }
 
+
+        // POST: UpdateProfile
         [HttpPost]
         public IActionResult UpdateProfile(User updatedUser)
         {
@@ -166,6 +168,7 @@ namespace Online_Help_Desk.Controllers
             return RedirectToAction("Profile");
         }
 
+        // POST: ChangePassword
         [HttpPost]
         public IActionResult ChangePassword(int userId, string currentPassword, string newPassword)
         {
